@@ -6,7 +6,7 @@ import Village from './scenes/Village.js'
 // La police doit être chargée avant que Phaser ne dessine du texte.
 await document.fonts.load('16px "IM Fell English"').catch(() => {})
 
-new Phaser.Game({
+const jeu = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'jeu',
   width: LARGEUR,
@@ -17,3 +17,6 @@ new Phaser.Game({
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   scene: [Boot, Village],
 })
+
+// Accès depuis la console pour les tests manuels.
+if (import.meta.env.DEV) window.jeu = jeu

@@ -8,12 +8,16 @@ import { creerRue, majRue, frapper, issueRue } from '../src/logique/portes.js'
 import { chaleur, indiceFort } from '../src/logique/chasse.js'
 import { creerRayon, poser, rayonPlein } from '../src/logique/boutique.js'
 
-test("progression : guidée, boutique verrouillée jusqu'à la fin", () => {
-  const p = creerProgression(['ferme', 'samhain', 'chapelle', 'rue', 'boutique'])
-  assert.equal(prochainLieu(p), 'ferme')
-  assert.equal(estAccessible(p, 'rue'), true)
-  assert.equal(estAccessible(p, 'boutique'), false)
-  for (const id of ['ferme', 'samhain', 'chapelle', 'rue']) terminer(p, id)
+test("progression : seuls le prochain lieu et les lieux faits sont ouverts", () => {
+  const p = creerProgression(['samhain', 'chapelle', 'ferme', 'rue', 'boutique'])
+  assert.equal(prochainLieu(p), 'samhain')
+  assert.equal(estAccessible(p, 'samhain'), true)
+  assert.equal(estAccessible(p, 'chapelle'), false)
+  terminer(p, 'samhain')
+  assert.equal(estAccessible(p, 'samhain'), true)   // on peut revoir un lieu fait
+  assert.equal(estAccessible(p, 'chapelle'), true)
+  assert.equal(estAccessible(p, 'ferme'), false)
+  for (const id of ['chapelle', 'ferme', 'rue']) terminer(p, id)
   assert.equal(estAccessible(p, 'boutique'), true)
   terminer(p, 'boutique')
   assert.equal(partieFinie(p), true)

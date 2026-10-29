@@ -31,20 +31,24 @@ export default class Village extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, carte.widthInPixels, carte.heightInPixels)
 
     // Bâtiments et décors : posés par le bas, seule la base bloque (on passe « derrière » le toit).
-    // Chacun garde une petite lueur (fenêtres, feu) pour qu'on devine le village dans le noir.
+    // Chacun garde une petite lueur (fenêtres, feu), sauf les lieux encore verrouillés, pour qu'on devine le village dans le noir.
     const obstacles = this.physics.add.staticGroup()
     this.lueurs = []
-    const poser = (cle, x, y) => {
+    const poser = (cle, x, y, eclaire = true) => {
       const s = obstacles.create(mx(x), my(y), cle).setOrigin(0.5, 1).setDepth(my(y))
       s.refreshBody()
       const h = Math.min(s.height * 0.45, 40)
       s.body.setSize(s.width * 0.9, h).setOffset(s.width * 0.05, s.height - h)
-      if (cle !== 'pierre') this.lueurs.push({ x: s.x, y: s.y - s.height * 0.4, r: Math.min(s.width, 70) * 0.7 })
+      if (cle !== 'pierre' && eclaire) this.lueurs.push({ x: s.x, y: s.y - s.height * 0.4, r: Math.min(s.width, 70) * 0.7 })
       return s
     }
-    for (const d of DECOR) poser(d.cle, d.x, d.y)
+    const rueOuverte = estAccessible(this.progression, 'rue') // les maisons de la rue s'allument avec elle
+    for (const d of DECOR) {
+      const s = poser(d.cle, d.x, d.y, d.cle !== 'maison' || rueOuverte)
+      if (d.cle === 'maison' && !rueOuverte) s.setFrame(1)
+    }
     for (const l of LIEUX.filter((l) => l.batiment)) {
-      const s = poser(l.batiment, l.x, l.y)
+      const s = poser(l.batiment, l.x, l.y, estAccessible(this.progression, l.id)) // lieu verrouillé : éteint
       if (this.anims.exists(l.batiment)) s.play(l.batiment)
     }
 

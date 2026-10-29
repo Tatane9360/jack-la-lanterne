@@ -1,10 +1,21 @@
 # Jack et la lanterne
 
-Jeu web 2D (Phaser 3 + Vite). Source de vérité du contenu : `design.md`. Plan : `docs/superpowers/plans/`.
+Jeu web 2D (Phaser 3 + Vite) qui raconte l'histoire d'Halloween. Contenu et intentions : `design.md`. Plan de construction : `docs/superpowers/plans/`.
 
-## Règles
+Ce fichier est un sommaire : chaque thème vit dans son propre fichier sous `docs/claude/`. Lire le fichier concerné avant de toucher à ce thème. Une nouvelle règle va dans le fichier de son thème (ou dans un nouveau fichier ajouté ici), jamais en vrac dans ce sommaire.
 
-- **pnpm uniquement**, jamais npm (`pnpm dev`, `pnpm test`, `pnpm build`).
-- **Code modulaire** : `src/logique/` reste pur (aucun import de Phaser) et testé avec `node --test` ; les scènes importent `logique/`, `data/` et `ui/`, jamais l'inverse.
-- **Vérifications visuelles dans le navigateur (MCP Chrome DevTools)** : les déléguer à un sous-agent sur un modèle léger (`model: "haiku"`, ou `"sonnet"` si l'analyse demande plus de finesse), et non au modèle principal. Les captures d'écran coûtent cher en contexte. Le sous-agent ne renvoie qu'un compte rendu texte court : ce qui s'affiche, les erreurs de la console, ce qui cloche.
-- En mode dev, le jeu est exposé dans `window.jeu` pour les tests depuis la console. Les touchers simulés doivent fournir `pageX`/`pageY`, et les mouvements de souris s'envoient à la toile (`canvas`), pas à `window`.
+## Les incontournables
+
+- pnpm uniquement, jamais npm.
+- `src/logique/` reste pur, sans Phaser, et testé.
+- Aucun fait historique sans source vérifiée.
+- Vérifications dans le navigateur : sous-agent sur un modèle léger (Haiku ou Sonnet).
+
+## Sommaire
+
+- [Outils et commandes](docs/claude/outils.md) : pnpm, Phaser 3, Vite, dépendances.
+- [Architecture](docs/claude/architecture.md) : rôle des dossiers, enchaînement des scènes, état partagé, profondeurs, mobile.
+- [Contenu historique et textes](docs/claude/contenu.md) : vérification des faits, formulations imposées, ton, typographie.
+- [Direction artistique](docs/claude/direction-artistique.md) : style encre et parchemin, palette, pixel art en code, images IA.
+- [Tests et vérifications](docs/claude/tests.md) : `node --test`, navigateur délégué à un modèle léger, simulation des entrées.
+- [Git](docs/claude/git.md) : un commit par tâche, format des messages, rien de poussé sans accord.

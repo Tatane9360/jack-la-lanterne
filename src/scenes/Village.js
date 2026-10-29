@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { TUILE, PROF, ECRAN } from '../config.js'
+import { TUILE, PROF, ECRAN, ZOOM } from '../config.js'
 import { ORANGE } from '../art/palette.js'
 import { CARTE, BLOQUANTES, DECOR, DEPART } from '../data/carte.js'
 import { LIEUX } from '../data/lieux.js'
@@ -19,6 +19,7 @@ const mx = (x) => x * TUILE + TUILE / 2
 const my = (y) => y * TUILE
 const porte = (l) => ({ x: mx(l.porte.x), y: my(l.porte.y) + TUILE / 2 })
 const DISTANCE_PORTE = 36
+const LOUPE_MOBILE = 1.5 // sur écran tactile (petit), le village est grossi d'autant
 
 export default class Village extends Phaser.Scene {
   constructor() { super('Village') }
@@ -60,9 +61,11 @@ export default class Village extends Phaser.Scene {
     this.physics.add.collider(this.jack, sol)
     this.physics.add.collider(this.jack, obstacles)
     this.carte = carte
+    this.loupe = matchMedia('(pointer: coarse)').matches ? LOUPE_MOBILE : 1
+    if (this.loupe > 1) this.creerCameraInterface()
     this.cadrer()
 
-    this.eclairer = creerLumiere(this)
+    this.eclairer = creerLumiere(this, this.loupe)
     creerPluie(this)
     this.creerGuide()
     creerFrise(this, this.progression)
@@ -93,9 +96,20 @@ export default class Village extends Phaser.Scene {
   // Caméra centrée sur Jack, bornée à la carte. À la main : avec une caméra d'origine haut-gauche (main.js),
   // les bornes et le suivi de Phaser supposent un zoom centré et se trompent.
   cadrer() {
-    const cam = this.cameras.main
-    cam.scrollX = Phaser.Math.Clamp(Math.round(this.jack.x - ECRAN.width / 2), 0, this.carte.widthInPixels - ECRAN.width)
-    cam.scrollY = Phaser.Math.Clamp(Math.round(this.jack.y - ECRAN.height / 2), 0, this.carte.heightInPixels - ECRAN.height)
+    const cam = this.cameras.main.setZoom(ZOOM * this.loupe)
+    const vw = ECRAN.width / this.loupe, vh = ECRAN.height / this.loupe // monde visible
+    cam.scrollX = Phaser.Math.Clamp(Math.round(this.jack.x - vw / 2), 0, this.carte.widthInPixels - vw)
+    cam.scrollY = Phaser.Math.Clamp(Math.round(this.jack.y - vh / 2), 0, this.carte.heightInPixels - vh)
+  }
+
+  // Monde grossi : une seconde caméra dessine l'interface (tout ce qui est fixe à l'écran) à sa taille normale.
+  // Le tri se fait juste avant chaque rendu, pour attraper aussi les bulles et bandeaux créés en cours de route.
+  creerCameraInterface() {
+    const monde = this.cameras.main
+    const ui = this.cameras.add(0, 0, ECRAN.width * ZOOM, ECRAN.height * ZOOM).setZoom(ZOOM).setOrigin(0)
+    const trier = () => { for (const o of this.children.list) o.cameraFilter = o.scrollFactorX === 0 ? monde.id : ui.id }
+    this.events.on('prerender', trier)
+    this.events.once('shutdown', () => this.events.off('prerender', trier)) // les écouteurs de scène survivent au redémarrage
   }
 
   // Jack s'arrête le temps de lire une carte.
@@ -140,7 +154,7 @@ export default class Village extends Phaser.Scene {
     this.guide.setPosition(cible.x, cible.y - TUILE)
 
     const cam = this.cameras.main
-    const sx = cible.x - cam.scrollX, sy = cible.y - cam.scrollY
+    const sx = (cible.x - cam.scrollX) * this.loupe, sy = (cible.y - cam.scrollY) * this.loupe
     const { width: w, height: h } = ECRAN
     const marge = 30, haut = 80 // haut : sous la frise
     if (sx > marge && sx < w - marge && sy > haut && sy < h - marge) return

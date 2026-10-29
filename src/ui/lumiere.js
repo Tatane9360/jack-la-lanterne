@@ -3,7 +3,8 @@ import { PROF, RAYON_LANTERNE, ECRAN } from '../config.js'
 
 // Calque de nuit plein écran, percé par des sources de lumière { x, y, r } en coordonnées du monde.
 // La première source est la lanterne : elle reçoit en plus une chaleur orange.
-export function creerLumiere(scene) {
+// loupe : grossissement du monde par rapport à l'écran (village sur mobile), le calque restant à l'échelle de l'écran.
+export function creerLumiere(scene, loupe = 1) {
   const { width, height } = ECRAN
   const nuit = scene.add.renderTexture(0, 0, width, height).setOrigin(0).setScrollFactor(0).setDepth(PROF.NUIT)
   const chaleur = scene.add.image(0, 0, 'halo').setTint(ORANGE).setBlendMode('ADD').setDepth(PROF.LUEUR).setAlpha(0.18).setScale(0.9)
@@ -13,8 +14,8 @@ export function creerLumiere(scene) {
   return (sources) => {
     nuit.clear().fill(NUIT, 0.94)
     for (const s of sources) {
-      trou.setDisplaySize(s.r * 2, s.r * 2)
-      nuit.erase(trou, s.x - cam.scrollX, s.y - cam.scrollY)
+      trou.setDisplaySize(s.r * 2 * loupe, s.r * 2 * loupe)
+      nuit.erase(trou, (s.x - cam.scrollX) * loupe, (s.y - cam.scrollY) * loupe)
     }
     chaleur.setPosition(sources[0].x, sources[0].y)
   }

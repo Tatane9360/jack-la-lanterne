@@ -1,12 +1,13 @@
 import Phaser from 'phaser'
-import { TUILE, RAYON_LANTERNE, POLICE, PROF } from '../config.js'
+import { TUILE, PROF } from '../config.js'
 import { ORANGE } from '../art/palette.js'
 import { CARTE, BLOQUANTES, DECOR, DEPART } from '../data/carte.js'
 import { LIEUX } from '../data/lieux.js'
 import { creerProgression, prochainLieu, estAccessible } from '../logique/progression.js'
 import { creerJack } from '../ui/jack.js'
 import { creerEntrees } from '../ui/entrees.js'
-import { creerLumiere } from '../ui/lumiere.js'
+import { creerLumiere, lanterneDe } from '../ui/lumiere.js'
+import { creerInvite } from '../ui/invite.js'
 
 // Tuiles → pixels du monde (centre horizontal de la tuile).
 const mx = (x) => x * TUILE + TUILE / 2
@@ -51,10 +52,8 @@ export default class Village extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, carte.widthInPixels, carte.heightInPixels).startFollow(this.jack, true).setRoundPixels(true)
 
     this.eclairer = creerLumiere(this)
-    // Chaleur orange autour de la lanterne, par-dessus la nuit.
-    this.chaleur = this.add.image(0, 0, 'halo').setTint(ORANGE).setBlendMode('ADD').setDepth(PROF.LUEUR).setAlpha(0.18).setScale(0.9)
     this.creerGuide()
-    this.creerInvite()
+    this.invite = creerInvite(this, () => this.entrer())
     this.entrees = creerEntrees(this)
   }
 
@@ -63,15 +62,6 @@ export default class Village extends Phaser.Scene {
     this.guide = this.add.image(0, 0, 'halo').setTint(ORANGE).setBlendMode('ADD').setDepth(PROF.LUEUR).setScale(0.5)
     this.tweens.add({ targets: this.guide, alpha: 0.35, scale: 0.38, yoyo: true, repeat: -1, duration: 900, ease: 'Sine.inOut' })
     this.fleche = this.add.triangle(0, 0, 0, -12, 26, 0, 0, 12, ORANGE).setScrollFactor(0).setDepth(PROF.INTERFACE)
-  }
-
-  creerInvite() {
-    const { width, height } = this.scale
-    this.invite = this.add.text(width / 2, height - 20, '', {
-      fontFamily: POLICE, fontSize: 24, color: '#2b1d10', align: 'center',
-      backgroundColor: '#dcc79a', padding: { x: 16, y: 8 },
-    }).setOrigin(0.5, 1).setScrollFactor(0).setDepth(PROF.INTERFACE).setVisible(false).setInteractive({ useHandCursor: true })
-    this.invite.on('pointerdown', () => this.entrer())
   }
 
   entrer() {
@@ -84,11 +74,7 @@ export default class Village extends Phaser.Scene {
   update(temps) {
     this.jack.piloter(this.entrees.direction())
 
-    const vacille = Math.sin(temps / 120) * 3 + Math.sin(temps / 47) * 1.5
-    const lanterne = { x: this.jack.x + 10, y: this.jack.y, r: RAYON_LANTERNE + vacille }
-    this.eclairer([lanterne, ...this.lueurs])
-    this.chaleur.setPosition(lanterne.x, lanterne.y)
-
+    this.eclairer([lanterneDe(this.jack, temps), ...this.lueurs])
     this.majGuide()
     this.majInvite()
     if (this.entrees.action()) this.entrer()
@@ -119,10 +105,9 @@ export default class Village extends Phaser.Scene {
       return Phaser.Math.Distance.Between(pieds.x, pieds.y, p.x, p.y) < DISTANCE_PORTE
     })
     const l = this.lieuProche
-    this.invite.setVisible(!!l)
-    if (!l) return
+    if (!l) return this.invite.cacher()
     const ouvert = estAccessible(this.progression, l.id)
     const fait = this.progression.faits.has(l.id)
-    this.invite.setText(ouvert ? `${l.nom} · ${fait ? 'revoir' : 'entrer'} (toucher ou Espace)` : "C'est fermé… pour l'instant.")
+    this.invite.montrer(ouvert ? `${l.nom} · ${fait ? 'revoir' : 'entrer'} (toucher ou Espace)` : "C'est fermé… pour l'instant.")
   }
 }

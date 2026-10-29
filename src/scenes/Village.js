@@ -8,6 +8,7 @@ import { creerJack } from '../ui/jack.js'
 import { creerEntrees } from '../ui/entrees.js'
 import { creerLumiere, lanterneDe } from '../ui/lumiere.js'
 import { creerInvite } from '../ui/invite.js'
+import { creerFrise } from './village/frise.js'
 
 // Tuiles → pixels du monde (centre horizontal de la tuile).
 const mx = (x) => x * TUILE + TUILE / 2
@@ -53,6 +54,7 @@ export default class Village extends Phaser.Scene {
 
     this.eclairer = creerLumiere(this)
     this.creerGuide()
+    creerFrise(this, this.progression)
     this.invite = creerInvite(this, () => this.entrer())
     this.entrees = creerEntrees(this)
   }
@@ -91,11 +93,11 @@ export default class Village extends Phaser.Scene {
     const cam = this.cameras.main
     const sx = cible.x - cam.scrollX, sy = cible.y - cam.scrollY
     const { width: w, height: h } = this.scale
-    const marge = 30
-    if (sx > marge && sx < w - marge && sy > marge && sy < h - marge) return
+    const marge = 30, haut = 80 // haut : sous la frise
+    if (sx > marge && sx < w - marge && sy > haut && sy < h - marge) return
     const angle = Math.atan2(sy - h / 2, sx - w / 2)
     this.fleche.setVisible(true).setRotation(angle)
-      .setPosition(Phaser.Math.Clamp(sx, marge, w - marge), Phaser.Math.Clamp(sy, marge, h - marge))
+      .setPosition(Phaser.Math.Clamp(sx, marge, w - marge), Phaser.Math.Clamp(sy, haut, h - marge))
   }
 
   majInvite() {

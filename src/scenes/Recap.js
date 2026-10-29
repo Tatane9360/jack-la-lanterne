@@ -17,10 +17,11 @@ export default class Recap extends Phaser.Scene {
       const y = 104 + i * 74
       const icone = this.add.image(90, y + 14, l.batiment ?? 'maison').setOrigin(0.5)
       icone.setScale(44 / Math.max(icone.width, icone.height))
-      const texte = this.add.text(140, y, typo(l.recap), {
-        fontFamily: POLICE, fontSize: 24, color: '#dcc79a', wordWrap: { width: width - 200 },
+      const epoque = this.add.text(140, y - 6, l.epoque, { fontFamily: POLICE, fontSize: 17, color: '#e8731a' })
+      const texte = this.add.text(140, y + 14, typo(l.recap), {
+        fontFamily: POLICE, fontSize: 22, color: '#dcc79a', wordWrap: { width: width - 200 },
       })
-      for (const o of [icone, texte]) {
+      for (const o of [icone, epoque, texte]) {
         o.setAlpha(0)
         this.tweens.add({ targets: o, alpha: 1, x: o.x + 10, delay: 500 + i * 700, duration: 500 })
       }

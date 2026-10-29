@@ -66,7 +66,7 @@ export default class Village extends Phaser.Scene {
     this.enLecture = false
 
     // Épilogue : plus de lueurs ni de guide, seule la lanterne cherche la citrouille.
-    this.chasse = chasse && creerChasse(this)
+    this.chasse = chasse ? creerChasse(this) : null
     if (this.chasse) {
       this.lueurs = []
       this.lire(() => this.chasse.intro())

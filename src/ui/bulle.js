@@ -4,11 +4,13 @@ import { ORANGE } from '../art/palette.js'
 const HAUTEUR_BULLE = 170
 const VITESSE_ECRITURE = 22 // ms par lettre
 
+// Espaces insécables de la typographie française : «, », : ! ? ne se retrouvent jamais seuls en bout de ligne.
+export const typo = (t) => t.replace(/ ([:;!?»])/g, ' $1').replace(/« /g, '« ')
+
 // Jack parle : cadre parchemin en bas de l'écran, texte écrit lettre par lettre.
 // Toucher / Espace / Entrée : termine la page, puis passe à la suivante. Résout la promesse à la fin.
 export function afficherBulle(scene, pages) {
-  // Espaces insécables de la typographie française : « et » ne se retrouvent jamais seuls en bout de ligne.
-  pages = [].concat(pages).map((p) => p.replace(/ ([:;!?»])/g, ' $1').replace(/« /g, '« '))
+  pages = [].concat(pages).map(typo)
   const { width, height } = scene.scale
   const y0 = height - HAUTEUR_BULLE - 16
   const z = PROF.INTERFACE + 1

@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { terminer } from '../logique/progression.js'
+import { terminer, partieFinie } from '../logique/progression.js'
 import { afficherBulle } from '../ui/bulle.js'
 import { fondNuit } from '../ui/fond.js'
 
@@ -16,7 +16,8 @@ export default class Anecdote extends Phaser.Scene {
     this.cameras.main.fadeIn(400)
 
     await afficherBulle(this, lieu.anecdote)
-    terminer(this.registry.get('progression'), lieu.id)
-    this.scene.start('Village')
+    const progression = this.registry.get('progression')
+    terminer(progression, lieu.id)
+    this.scene.start(partieFinie(progression) ? 'Recap' : 'Village')
   }
 }

@@ -1,8 +1,10 @@
 import Phaser from 'phaser'
 import { LARGEUR, HAUTEUR } from './config.js'
 import Boot from './scenes/Boot.js'
+import Titre from './scenes/Titre.js'
 import Village from './scenes/Village.js'
 import Anecdote from './scenes/Anecdote.js'
+import Recap from './scenes/Recap.js'
 import Navet from './scenes/minijeux/Navet.js'
 import Feu from './scenes/minijeux/Feu.js'
 import Portes from './scenes/minijeux/Portes.js'
@@ -20,7 +22,7 @@ const jeu = new Phaser.Game({
   backgroundColor: '#0b0705',
   physics: { default: 'arcade' },
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
-  scene: [Boot, Village, Anecdote, Navet, Feu, Portes, Boutique],
+  scene: [Boot, Titre, Village, Anecdote, Recap, Navet, Feu, Portes, Boutique],
 })
 
 // Accès depuis la console pour les tests manuels.

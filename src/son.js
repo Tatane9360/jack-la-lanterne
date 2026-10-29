@@ -6,7 +6,7 @@ import { zzfx, ZZFX } from 'zzfx'
 // Doit démarrer après un geste de l'utilisateur (règle des navigateurs).
 const VOLUME_BRUITS = 0.5
 // Fichiers déjà coupés, bouclés et normalisés (pic à -1/-3 dB) : ces volumes ne règlent que l'équilibre du mixage.
-const AMBIANCES = { musique: 0.3, pluie: 0.45, feu: 0.7, marcher: 0.45 } // en boucle
+const AMBIANCES = { musique: 0.3, pluie: 0.2, feu: 0.7, marcher: 0.45 } // en boucle
 const VOLUMES = { frapper: 0.8, bonbon: 0.5, sort: 0.55, arrache: 0.9, casse: 0.5, resiste: 0.5, esprit: 0.4, pose: 0.4, carte: 0.6, trouvee: 0.55 }
 export const NOMS_SONS = [...Object.keys(AMBIANCES), ...Object.keys(VOLUMES)]
 

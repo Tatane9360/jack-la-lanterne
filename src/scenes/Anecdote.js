@@ -18,6 +18,7 @@ export default class Anecdote extends Phaser.Scene {
     await afficherBulle(this, lieu.anecdote)
     const progression = this.registry.get('progression')
     terminer(progression, lieu.id)
-    this.scene.start(partieFinie(progression) ? 'Recap' : 'Village')
+    // Tous les lieux faits : épilogue de la citrouille cachée, puis le récap.
+    this.scene.start('Village', { chasse: partieFinie(progression) })
   }
 }

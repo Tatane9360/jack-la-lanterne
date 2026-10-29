@@ -5,6 +5,7 @@ import { vecteurJoystick } from '../src/logique/joystick.js'
 import { jauge, tirer, creerRecolte, recolter, issueRecolte } from '../src/logique/recolte.js'
 import { creerFeu, majFeu, issueFeu, DUREE_FEU } from '../src/logique/feu.js'
 import { creerRue, majRue, frapper, issueRue } from '../src/logique/portes.js'
+import { chaleur, indiceFort } from '../src/logique/chasse.js'
 import { creerRayon, poser, rayonPlein } from '../src/logique/boutique.js'
 
 test("progression : guidée, boutique verrouillée jusqu'à la fin", () => {
@@ -79,4 +80,12 @@ test('boutique : un objet va sur son étagère', () => {
   r = poser(r, 0, 'citrouille').rayon
   r = poser(r, 1, 'bonbon').rayon
   assert.equal(rayonPlein(r), true)
+})
+
+test('chasse : la lanterne chauffe en approchant, la flèche vient si on tarde', () => {
+  assert.equal(chaleur(500, 400), 0)
+  assert.equal(chaleur(100, 400), 0.75)
+  assert.equal(chaleur(0, 400), 1)
+  assert.equal(indiceFort(10, 30), false)
+  assert.equal(indiceFort(30, 30), true)
 })

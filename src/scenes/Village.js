@@ -10,6 +10,7 @@ import { creerLumiere, lanterneDe } from '../ui/lumiere.js'
 import { creerInvite } from '../ui/invite.js'
 import { creerFrise } from './village/frise.js'
 import { creerCartes, relireCartes } from './village/cartes.js'
+import { creerChasse } from './village/chasse.js'
 
 // Tuiles → pixels du monde (centre horizontal de la tuile).
 const mx = (x) => x * TUILE + TUILE / 2
@@ -20,7 +21,7 @@ const DISTANCE_PORTE = 36
 export default class Village extends Phaser.Scene {
   constructor() { super('Village') }
 
-  create() {
+  create({ chasse } = {}) {
     if (!this.registry.has('progression')) this.registry.set('progression', creerProgression(LIEUX.map((l) => l.id)))
     this.progression = this.registry.get('progression')
 
@@ -59,6 +60,13 @@ export default class Village extends Phaser.Scene {
     this.cartes = creerCartes(this)
     this.cartes.compteur.on('pointerdown', (p, x, y, e) => { e.stopPropagation(); this.lire(() => relireCartes(this)) })
     this.enLecture = false
+
+    // Épilogue : plus de lueurs ni de guide, seule la lanterne cherche la citrouille.
+    this.chasse = chasse && creerChasse(this)
+    if (this.chasse) {
+      this.lueurs = []
+      this.lire(() => this.chasse.intro())
+    }
     this.invite = creerInvite(this, () => this.entrer())
     this.entrees = creerEntrees(this)
   }
@@ -88,10 +96,12 @@ export default class Village extends Phaser.Scene {
     this.scene.start(l.scene, { lieu: l })
   }
 
-  update(temps) {
+  update(temps, delta) {
     this.jack.piloter(this.enLecture ? { x: 0, y: 0 } : this.entrees.direction())
-    this.eclairer([lanterneDe(this.jack, temps), ...this.lueurs, ...this.cartes.lueurs()])
+    const lanterne = lanterneDe(this.jack, temps)
+    this.eclairer([this.chasse ? this.chasse.lanterne(lanterne, this.jack, temps) : lanterne, ...this.lueurs, ...this.cartes.lueurs()])
     if (this.enLecture) return
+    if (this.chasse?.trouvee(this.jack, delta / 1000)) return this.lire(() => this.chasse.fin())
 
     this.majGuide()
     this.majInvite()
@@ -100,8 +110,8 @@ export default class Village extends Phaser.Scene {
 
   majGuide() {
     const id = prochainLieu(this.progression)
-    const cible = id && porte(LIEUX.find((l) => l.id === id))
-    this.guide.setVisible(!!cible)
+    const cible = this.chasse ? this.chasse.cible() : id && porte(LIEUX.find((l) => l.id === id))
+    this.guide.setVisible(!!cible && !this.chasse)
     this.fleche.setVisible(false)
     if (!cible) return
     this.guide.setPosition(cible.x, cible.y - TUILE)
@@ -118,7 +128,7 @@ export default class Village extends Phaser.Scene {
 
   majInvite() {
     const pieds = { x: this.jack.x, y: this.jack.y + 12 }
-    this.lieuProche = LIEUX.find((l) => {
+    this.lieuProche = !this.chasse && LIEUX.find((l) => {
       const p = porte(l)
       return Phaser.Math.Distance.Between(pieds.x, pieds.y, p.x, p.y) < DISTANCE_PORTE
     })

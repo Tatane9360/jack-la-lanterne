@@ -52,3 +52,6 @@ export const DECOR = [
   ...[24, 28, 32, 36].map((x) => ({ cle: 'maison', x, y: 23 })),
 ]
 export const DEPART = { x: 8, y: 23.5 }
+
+// Cachettes possibles de la citrouille finale (x, y en tuiles), une tirée au hasard.
+export const CACHETTES = [[12, 9], [27, 8], [17, 19], [5, 16], [31, 14], [21, 26]].map(([x, y]) => ({ x, y }))

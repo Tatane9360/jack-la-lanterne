@@ -1,6 +1,9 @@
-// Toile en 960×540 : le texte reste net, le pixel art est dessiné à l'échelle PIXEL.
+// Monde logique en 960×540, le pixel art est dessiné à l'échelle PIXEL.
+// La toile est ZOOM fois plus grande et les caméras zooment d'autant : le texte reste lisse, le pixel art reste net.
 export const LARGEUR = 960
 export const HAUTEUR = 540
+export const ZOOM = 2
+export const ECRAN = { width: LARGEUR, height: HAUTEUR } // à utiliser à la place de scene.scale (qui vaut la toile)
 export const PIXEL = 2
 export const TUILE = 16 * PIXEL
 export const VITESSE_JACK = 140

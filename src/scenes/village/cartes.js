@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { POLICE, PROF, TUILE } from '../../config.js'
+import { POLICE, PROF, TUILE, ECRAN } from '../../config.js'
 import { CARTES } from '../../data/cartes.js'
 import { afficherBulle } from '../../ui/bulle.js'
 import { bruit } from '../../son.js'
@@ -29,7 +29,7 @@ export function creerCartes(scene) {
     return { ...c, sprite: s, lueur: { x, y, r: 26 } }
   })
 
-  const compteur = scene.add.text(scene.scale.width - 16, 64, '', {
+  const compteur = scene.add.text(ECRAN.width - 16, 64, '', {
     fontFamily: POLICE, fontSize: 20, color: '#dcc79a', backgroundColor: '#0b0705cc', padding: { x: 10, y: 4 },
   }).setOrigin(1, 0).setScrollFactor(0).setDepth(PROF.INTERFACE).setInteractive({ useHandCursor: true })
   const majCompteur = () => compteur.setText(`Cartes ${trouvees.size}/${CARTES.length}`)

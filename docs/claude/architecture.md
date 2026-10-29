@@ -29,7 +29,11 @@ Les dépendances vont dans un seul sens : une scène importe `logique/`, `data/`
 
 ## Repères techniques
 
-- Toile 960×540, pixel art dessiné à l'échelle `PIXEL = 2`. Une tuile fait `TUILE = 32` px.
+- Monde logique 960×540, pixel art dessiné à l'échelle `PIXEL = 2`. Une tuile fait `TUILE = 32` px.
+- Rendu HD : la toile fait `ZOOM` (2) fois le monde logique, et chaque caméra zoome d'autant depuis le coin haut-gauche (`main.js`). Les textes sont dessinés en résolution `ZOOM`. Conséquences :
+  - Utiliser `ECRAN.width` / `ECRAN.height` (`config.js`), jamais `scene.scale` (qui vaut la taille de la toile).
+  - `pointer.x` / `pointer.y` sont en pixels de toile : les diviser par `ZOOM` pour un élément d'interface fixe (exemple : `ui/joystick.js`). `pointer.worldX` et les objets interactifs gèrent le zoom seuls.
+  - Ne pas se fier à `dragX` / `dragY` (glisser-déposer), ni à `setBounds` / `startFollow` (caméra), ni au tri des tuiles hors champ (`skipCull = true` sur les calques) : ils supposent un zoom centré. Suivre `pointer.worldX` (`Boutique.js`) et cadrer la caméra à la main (`Village.cadrer()`).
 - Profondeurs : le monde se trie par `y` (moins de 10 000). La nuit, les lueurs et l'interface utilisent les constantes `PROF` de `config.js`.
 - Ne jamais écrire dans `gameObject.type` : c'est une propriété interne de Phaser. Utiliser un autre nom (exemple : `o.objet`).
 

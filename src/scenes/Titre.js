@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { POLICE } from '../config.js'
+import { POLICE, ECRAN } from '../config.js'
 import { ORANGE } from '../art/palette.js'
 import { INTRO } from '../data/lieux.js'
 import { afficherBulle } from '../ui/bulle.js'
@@ -9,7 +9,7 @@ export default class Titre extends Phaser.Scene {
   constructor() { super('Titre') }
 
   create() {
-    const { width } = this.scale
+    const { width } = ECRAN
     this.cameras.main.setBackgroundColor('#0b0705').fadeIn(600)
     this.add.text(width / 2, 50, 'Jack et la lanterne', { fontFamily: POLICE, fontSize: 64, color: '#e8731a' }).setOrigin(0.5, 0)
     this.add.text(width / 2, 128, "Une petite histoire d'Halloween", { fontFamily: POLICE, fontSize: 26, color: '#b9a272', fontStyle: 'italic' }).setOrigin(0.5, 0)

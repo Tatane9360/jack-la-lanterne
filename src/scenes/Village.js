@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { TUILE, PROF } from '../config.js'
+import { TUILE, PROF, ECRAN } from '../config.js'
 import { ORANGE } from '../art/palette.js'
 import { CARTE, BLOQUANTES, DECOR, DEPART } from '../data/carte.js'
 import { LIEUX } from '../data/lieux.js'
@@ -30,6 +30,7 @@ export default class Village extends Phaser.Scene {
     const carte = this.make.tilemap({ data: CARTE, tileWidth: TUILE, tileHeight: TUILE })
     const sol = carte.createLayer(0, carte.addTilesetImage('tuiles'), 0, 0)
     sol.setCollision(BLOQUANTES)
+    sol.skipCull = true // le tri des tuiles hors champ suppose un zoom centré (voir main.js) ; la carte est petite
     this.physics.world.setBounds(0, 0, carte.widthInPixels, carte.heightInPixels)
 
     // Bâtiments et décors : posés par le bas, seule la base bloque (on passe « derrière » le toit).
@@ -58,7 +59,8 @@ export default class Village extends Phaser.Scene {
     this.jack = creerJack(this, pos.x, pos.y, 'haut')
     this.physics.add.collider(this.jack, sol)
     this.physics.add.collider(this.jack, obstacles)
-    this.cameras.main.setBounds(0, 0, carte.widthInPixels, carte.heightInPixels).startFollow(this.jack, true).setRoundPixels(true)
+    this.carte = carte
+    this.cadrer()
 
     this.eclairer = creerLumiere(this)
     creerPluie(this)
@@ -88,6 +90,14 @@ export default class Village extends Phaser.Scene {
     this.fleche = this.add.triangle(0, 0, 0, -12, 26, 0, 0, 12, ORANGE).setScrollFactor(0).setDepth(PROF.INTERFACE)
   }
 
+  // Caméra centrée sur Jack, bornée à la carte. À la main : avec une caméra d'origine haut-gauche (main.js),
+  // les bornes et le suivi de Phaser supposent un zoom centré et se trompent.
+  cadrer() {
+    const cam = this.cameras.main
+    cam.scrollX = Phaser.Math.Clamp(Math.round(this.jack.x - ECRAN.width / 2), 0, this.carte.widthInPixels - ECRAN.width)
+    cam.scrollY = Phaser.Math.Clamp(Math.round(this.jack.y - ECRAN.height / 2), 0, this.carte.heightInPixels - ECRAN.height)
+  }
+
   // Jack s'arrête le temps de lire une carte.
   async lire(bulle) {
     if (this.enLecture) return
@@ -108,6 +118,7 @@ export default class Village extends Phaser.Scene {
 
   update(temps, delta) {
     this.jack.piloter(this.enLecture ? { x: 0, y: 0 } : this.entrees.direction())
+    this.cadrer()
     const lanterne = lanterneDe(this.jack, temps)
     lanterne.r *= braise(this.progression)
     this.diable?.(this.jack)
@@ -130,7 +141,7 @@ export default class Village extends Phaser.Scene {
 
     const cam = this.cameras.main
     const sx = cible.x - cam.scrollX, sy = cible.y - cam.scrollY
-    const { width: w, height: h } = this.scale
+    const { width: w, height: h } = ECRAN
     const marge = 30, haut = 80 // haut : sous la frise
     if (sx > marge && sx < w - marge && sy > haut && sy < h - marge) return
     const angle = Math.atan2(sy - h / 2, sx - w / 2)

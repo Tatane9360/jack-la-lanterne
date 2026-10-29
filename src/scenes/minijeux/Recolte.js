@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { POLICE, PROF } from '../../config.js'
+import { POLICE, PROF, ECRAN } from '../../config.js'
 import { ORANGE } from '../../art/palette.js'
 import { jauge, tirer, ZONE, creerRecolte, recolter, issueRecolte } from '../../logique/recolte.js'
 import { afficherBulle, typo } from '../../ui/bulle.js'
@@ -45,9 +45,9 @@ export default class Recolte extends Phaser.Scene {
       return Object.assign(dessinerNavet(this, 160 + i * 160, taille), { taille })
     })
     // La terre recouvre le corps des navets.
-    this.add.rectangle(0, SOL, this.scale.width, 140, 0x4a3320).setOrigin(0).setDepth(2).setStrokeStyle(4, 0x2b1d10)
+    this.add.rectangle(0, SOL, ECRAN.width, 140, 0x4a3320).setOrigin(0).setDepth(2).setStrokeStyle(4, 0x2b1d10)
     this.halo = this.add.image(0, SOL - 10, 'halo').setTint(ORANGE).setBlendMode('ADD').setScale(0.5).setDepth(0)
-    this.message = this.add.text(this.scale.width / 2, 96, '', { fontFamily: POLICE, fontSize: 28, color: '#dcc79a' }).setOrigin(0.5).setDepth(PROF.INTERFACE)
+    this.message = this.add.text(ECRAN.width / 2, 96, '', { fontFamily: POLICE, fontSize: 28, color: '#dcc79a' }).setOrigin(0.5).setDepth(PROF.INTERFACE)
 
     // Jauge : la zone orange est le bon dosage.
     this.add.rectangle(JAUGE.x, JAUGE.y, JAUGE.w, JAUGE.h, 0xdcc79a, 0.3).setOrigin(0, 0.5).setStrokeStyle(3, 0x2b1d10).setDepth(3)
@@ -114,7 +114,7 @@ export default class Recolte extends Phaser.Scene {
     const gros = this.navets.filter((n) => n.arrache).sort((a, b) => b.taille - a.taille)[0]
     for (const n of this.navets) if (n !== gros) this.tweens.add({ targets: n, alpha: 0, duration: 300 })
     this.dire('Le plus gros fera la lanterne !')
-    const { width } = this.scale
+    const { width } = ECRAN
     this.tweens.add({
       targets: gros, x: width / 2, y: 210, scale: 2.2 / gros.taille, duration: 700, ease: 'Sine.inOut',
       onComplete: () => {

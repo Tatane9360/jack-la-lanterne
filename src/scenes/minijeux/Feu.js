@@ -6,6 +6,7 @@ import { fondNuit } from '../../ui/fond.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
 import { creerPluie } from '../../ui/pluie.js'
 import { bruit, ambianceLocale } from '../../son.js'
+import { ECRAN } from '../../config.js'
 
 const CENTRE = { x: 480, y: 300 }
 const PORTEE_FEU = 50 // un esprit plus proche que ça touche le feu
@@ -40,7 +41,7 @@ export default class Feu extends Phaser.Scene {
 
   apparaitre() {
     // Depuis un bord au hasard, vers le feu.
-    const { width, height } = this.scale
+    const { width, height } = ECRAN
     const a = Math.random() * Math.PI * 2
     const r = Math.hypot(width, height) / 2 + 20
     const e = this.add.sprite(CENTRE.x + Math.cos(a) * r, CENTRE.y + Math.sin(a) * r, 'esprit').play('esprit').setScale(4).setAlpha(0.85)

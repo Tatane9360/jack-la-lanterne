@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { LARGEUR, HAUTEUR } from './config.js'
+import { LARGEUR, HAUTEUR, ZOOM } from './config.js'
 import Boot from './scenes/Boot.js'
 import Titre from './scenes/Titre.js'
 import Village from './scenes/Village.js'
@@ -13,16 +13,29 @@ import Boutique from './scenes/minijeux/Boutique.js'
 // La police doit être chargée avant que Phaser ne dessine du texte.
 await document.fonts.load('16px "IM Fell English"').catch(() => {})
 
+// Rendu HD : les textes sont dessinés à la résolution de la toile.
+const texte = Phaser.GameObjects.GameObjectFactory.prototype.text
+Phaser.GameObjects.GameObjectFactory.prototype.text = function (x, y, t, style = {}) {
+  return texte.call(this, x, y, t, { resolution: ZOOM, ...style })
+}
+
 const jeu = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'jeu',
-  width: LARGEUR,
-  height: HAUTEUR,
+  width: LARGEUR * ZOOM,
+  height: HAUTEUR * ZOOM,
   pixelArt: true,
   backgroundColor: '#0b0705',
   physics: { default: 'arcade' },
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   scene: [Boot, Titre, Village, Anecdote, Recap, Recolte, Feu, Portes, Boutique],
+})
+
+// Chaque caméra zoome depuis le coin haut-gauche : les coordonnées restent celles du monde logique 960×540.
+// pixelArt rend la toile « crisp » : comme elle est plus grande que l'écran, on la laisse réduire en douceur.
+jeu.events.once('ready', () => {
+  jeu.canvas.style.imageRendering = 'auto'
+  for (const s of jeu.scene.scenes) s.events.on('create', () => s.cameras.main.setZoom(ZOOM).setOrigin(0))
 })
 
 // Phaser rate parfois le passage portrait → paysage (le jeu reste à la taille du portrait) : on force le recalcul.

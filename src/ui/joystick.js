@@ -1,5 +1,5 @@
 import { vecteurJoystick } from '../logique/joystick.js'
-import { PROF } from '../config.js'
+import { PROF, ECRAN, ZOOM } from '../config.js'
 
 const RAYON = 48
 
@@ -11,16 +11,19 @@ export function creerJoystick(scene) {
   let doigt = null
   let v = { x: 0, y: 0 }
 
+  const logique = (p) => ({ x: p.x / ZOOM, y: p.y / ZOOM }) // toile → écran logique 960×540
   scene.input.addPointer(1) // joystick + un second doigt pour toucher un bouton
   scene.input.on('pointerdown', (p) => {
-    if (doigt || p.x > scene.scale.width / 2) return
+    const { x, y } = logique(p)
+    if (doigt || x > ECRAN.width / 2) return
     doigt = p
-    base.setPosition(p.x, p.y).setVisible(true)
-    manette.setPosition(p.x, p.y).setVisible(true)
+    base.setPosition(x, y).setVisible(true)
+    manette.setPosition(x, y).setVisible(true)
   })
   scene.input.on('pointermove', (p) => {
     if (p !== doigt) return
-    v = vecteurJoystick(p.x - base.x, p.y - base.y, RAYON)
+    const { x, y } = logique(p)
+    v = vecteurJoystick(x - base.x, y - base.y, RAYON)
     manette.setPosition(base.x + v.x * RAYON, base.y + v.y * RAYON)
   })
   scene.input.on('pointerup', (p) => {

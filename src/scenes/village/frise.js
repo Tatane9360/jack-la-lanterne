@@ -1,4 +1,4 @@
-import { POLICE, PROF } from '../../config.js'
+import { POLICE, PROF, ECRAN } from '../../config.js'
 import { ORANGE } from '../../art/palette.js'
 import { LIEUX } from '../../data/lieux.js'
 import { prochainLieu } from '../../logique/progression.js'
@@ -8,11 +8,11 @@ const Y = 30
 
 // Frise chronologique en haut du village : une case par lieu, allumée une fois le lieu fait.
 export function creerFrise(scene, progression) {
-  const x0 = scene.scale.width / 2 - ((LIEUX.length - 1) * LARGEUR_CASE) / 2
+  const x0 = ECRAN.width / 2 - ((LIEUX.length - 1) * LARGEUR_CASE) / 2
   const fixer = (o) => o.setScrollFactor(0).setDepth(PROF.INTERFACE)
   const prochain = prochainLieu(progression)
 
-  fixer(scene.add.rectangle(scene.scale.width / 2, Y, LIEUX.length * LARGEUR_CASE, 52, 0x0b0705, 0.75).setStrokeStyle(2, 0xb9a272, 0.5))
+  fixer(scene.add.rectangle(ECRAN.width / 2, Y, LIEUX.length * LARGEUR_CASE, 52, 0x0b0705, 0.75).setStrokeStyle(2, 0xb9a272, 0.5))
   fixer(scene.add.line(0, 0, x0, Y - 8, x0 + (LIEUX.length - 1) * LARGEUR_CASE, Y - 8, 0xb9a272, 0.5).setOrigin(0))
 
   LIEUX.forEach((l, i) => {

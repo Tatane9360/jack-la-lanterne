@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { POLICE, PROF } from '../../config.js'
+import { POLICE, PROF, ECRAN } from '../../config.js'
 import { creerRue, majRue, frapper, issueRue } from '../../logique/portes.js'
 import { afficherBulle } from '../../ui/bulle.js'
 import { creerJack } from '../../ui/jack.js'
@@ -25,7 +25,7 @@ export default class Portes extends Phaser.Scene {
   async create({ lieu }) {
     this.lieu = lieu
     this.actif = false
-    const { width, height } = this.scale
+    const { width, height } = ECRAN
     this.cameras.main.setBackgroundColor('#0b0705')
     this.add.tileSprite(0, 0, width, height, 'tuiles', 0).setOrigin(0)
     boutonQuitter(this)

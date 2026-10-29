@@ -1,4 +1,4 @@
-import { POLICE, PROF } from '../config.js'
+import { POLICE, PROF, ECRAN } from '../config.js'
 import { ORANGE } from '../art/palette.js'
 
 const HAUTEUR_BULLE = 170
@@ -11,7 +11,7 @@ export const typo = (t) => t.replace(/ ([:;!?»])/g, '\u00a0$1').replace(/« /g,
 // Toucher / Espace / Entrée : termine la page, puis passe à la suivante. Résout la promesse à la fin.
 export function afficherBulle(scene, pages, portrait = 'jack') {
   pages = [].concat(pages).map(typo)
-  const { width, height } = scene.scale
+  const { width, height } = ECRAN
   const y0 = height - HAUTEUR_BULLE - 16
   const z = PROF.INTERFACE + 1
   const objets = [

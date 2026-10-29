@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { POLICE } from '../config.js'
+import { POLICE, ECRAN } from '../config.js'
 import { LIEUX } from '../data/lieux.js'
 import { fondNuit } from '../ui/fond.js'
 import { typo } from '../ui/bulle.js'
@@ -11,7 +11,7 @@ export default class Recap extends Phaser.Scene {
   constructor() { super('Recap') }
 
   create() {
-    const { width } = this.scale
+    const { width } = ECRAN
     fondNuit(this, 'Ce que tu pourras raconter ce soir')
     this.cameras.main.fadeIn(600)
 

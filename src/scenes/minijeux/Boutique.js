@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { POLICE } from '../../config.js'
+import { POLICE, ECRAN } from '../../config.js'
 import { creerRayon, poser, rayonPlein } from '../../logique/boutique.js'
 import { afficherBulle } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
@@ -40,13 +40,14 @@ export default class Boutique extends Phaser.Scene {
       return o
     })
 
-    this.chrono = this.add.text(this.scale.width - 80, 24, '', { fontFamily: POLICE, fontSize: 30, color: '#dcc79a' }).setOrigin(1, 0)
+    this.chrono = this.add.text(ECRAN.width - 80, 24, '', { fontFamily: POLICE, fontSize: 30, color: '#dcc79a' }).setOrigin(1, 0)
     await afficherBulle(this, lieu.consigne)
 
     this.debut = this.time.now
     for (const o of objets) this.input.setDraggable(o.setInteractive({ useHandCursor: true }))
-    this.input.on('dragstart', (p, o) => { o.setAngle(0).setDepth(10) })
-    this.input.on('drag', (p, o, x, y) => o.setPosition(x, y))
+    // Position suivie via worldX : dragX/dragY de Phaser se trompent avec le zoom de caméra (main.js).
+    this.input.on('dragstart', (p, o) => { o.setAngle(0).setDepth(10); o.prise = { x: p.worldX - o.x, y: p.worldY - o.y } })
+    this.input.on('drag', (p, o) => o.setPosition(p.worldX - o.prise.x, p.worldY - o.prise.y))
     this.input.on('dragend', (p, o) => this.lacher(o))
   }
 

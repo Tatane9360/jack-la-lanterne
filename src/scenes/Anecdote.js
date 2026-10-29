@@ -2,13 +2,14 @@ import Phaser from 'phaser'
 import { terminer, partieFinie } from '../logique/progression.js'
 import { afficherBulle } from '../ui/bulle.js'
 import { fondNuit } from '../ui/fond.js'
+import { ECRAN } from '../config.js'
 
 // Après un mini-jeu (ou directement pour la chapelle) : Jack raconte l'anecdote du lieu.
 export default class Anecdote extends Phaser.Scene {
   constructor() { super('Anecdote') }
 
   async create({ lieu }) {
-    const { width } = this.scale
+    const { width } = ECRAN
     fondNuit(this, lieu.nom)
     const illustration = lieu.batiment ?? 'maison'
     const im = this.add.sprite(width / 2, 220, illustration).setScale(3)

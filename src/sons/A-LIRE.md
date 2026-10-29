@@ -2,6 +2,7 @@
 
 Dépose les fichiers ici (`src/sons/`), en `.mp3`, nommés exactement comme ci-dessous. Un fichier absent ne casse rien :
 silence pour une ambiance, bruitage ZzFX généré en code pour un bruitage.
+Avant intégration, chaque fichier est coupé, bouclé si besoin et normalisé avec ffmpeg (originaux non gardés dans le dépôt).
 Licence : CC0 de préférence ; note toujours l'auteur et le lien dans `LICENCES.md`.
 
 ## Ambiances (en boucle, sans coupure audible)
@@ -11,6 +12,7 @@ Licence : CC0 de préférence ; note toujours l'auteur et le lien dans `LICENCES
 | musique.mp3 | tout le jeu | spooky ambient loop, halloween music loop, dark folk loop |
 | pluie.mp3 | tout le jeu, sous la musique | rain loop, night rain ambience |
 | feu.mp3 | cercle de pierres (Samhain) | campfire crackle loop, bonfire loop |
+| marcher.mp3 | quand Jack marche | footsteps loop, walking dirt |
 
 ## Bruitages (courts, moins de 2 s)
 

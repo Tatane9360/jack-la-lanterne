@@ -7,7 +7,7 @@
 | `src/logique/` | Règles du jeu, pures et testées | rien (surtout pas Phaser) |
 | `src/data/` | Carte, lieux, textes et leurs sources | rien |
 | `src/art/` | Palette, sprites en chaînes de pixels, génération des textures | `config.js` |
-| `src/ui/` | Briques partagées : Jack, entrées, joystick, lumière, bulle, invite, fond | `logique/`, `art/`, `config.js` |
+| `src/ui/` | Briques partagées : Jack, entrées, joystick, lumière, bulle, invite, fond, pluie | `logique/`, `art/`, `config.js`, `son.js` |
 | `src/scenes/` | Écrans du jeu et mini-jeux | tout le reste |
 
 Les dépendances vont dans un seul sens : une scène importe `logique/`, `data/` et `ui/`, jamais l'inverse. Avant d'écrire une brique, vérifier si `ui/` la contient déjà (exemples : Jack piloté, lanterne, invite d'action).

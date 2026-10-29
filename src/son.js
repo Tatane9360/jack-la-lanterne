@@ -5,8 +5,9 @@ import { zzfx, ZZFX } from 'zzfx'
 // bruitage ZzFX (généré en code, MIT) pour les bruitages qui en ont un.
 // Doit démarrer après un geste de l'utilisateur (règle des navigateurs).
 const VOLUME_BRUITS = 0.5
-const AMBIANCES = { musique: 0.45, pluie: 0.3, feu: 0.5 } // en boucle
-const VOLUMES = { frapper: 0.6, bonbon: 0.5, sort: 0.6, arrache: 0.5, casse: 0.5, resiste: 0.5, esprit: 0.4, pose: 0.4, carte: 0.5, trouvee: 0.6 }
+// Fichiers déjà coupés, bouclés et normalisés (pic à -1/-3 dB) : ces volumes ne règlent que l'équilibre du mixage.
+const AMBIANCES = { musique: 0.3, pluie: 0.45, feu: 0.7, marcher: 0.45 } // en boucle
+const VOLUMES = { frapper: 0.8, bonbon: 0.5, sort: 0.55, arrache: 0.9, casse: 0.5, resiste: 0.5, esprit: 0.4, pose: 0.4, carte: 0.6, trouvee: 0.55 }
 export const NOMS_SONS = [...Object.keys(AMBIANCES), ...Object.keys(VOLUMES)]
 
 // Repli ZzFX, réglé dans le studio : https://killedbyapixel.github.io/ZzFX
@@ -40,6 +41,15 @@ export function chargerSons(scene) {
 export function bruit(nom) {
   if (existe(nom)) return sons.play(nom, { volume: VOLUMES[nom] })
   if (ZZFX_REPLI[nom]) zzfx(...ZZFX_REPLI[nom])
+}
+
+// Bruit de pas en boucle tant que Jack marche (un seul pour tout le jeu).
+let pasEnCours = null
+export function pas(marche) {
+  if (!existe('marcher')) return
+  pasEnCours ??= sons.add('marcher', { loop: true, volume: AMBIANCES.marcher })
+  if (marche && !pasEnCours.isPlaying) pasEnCours.play()
+  else if (!marche && pasEnCours.isPlaying) pasEnCours.stop()
 }
 
 // Ambiance propre à une scène (le feu de Samhain) : coupée quand la scène s'arrête.

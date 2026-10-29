@@ -5,7 +5,7 @@ const HAUTEUR_BULLE = 170
 const VITESSE_ECRITURE = 22 // ms par lettre
 
 // Espaces insécables de la typographie française : «, », : ! ? ne se retrouvent jamais seuls en bout de ligne.
-export const typo = (t) => t.replace(/ ([:;!?»])/g, ' $1').replace(/« /g, '« ')
+export const typo = (t) => t.replace(/ ([:;!?»])/g, '\u00a0$1').replace(/« /g, '«\u00a0')
 
 // Jack parle : cadre parchemin en bas de l'écran, texte écrit lettre par lettre.
 // Toucher / Espace / Entrée : termine la page, puis passe à la suivante. Résout la promesse à la fin.

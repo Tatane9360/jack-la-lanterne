@@ -3,6 +3,7 @@ import { POLICE } from '../config.js'
 import { ORANGE } from '../art/palette.js'
 import { INTRO } from '../data/lieux.js'
 import { afficherBulle } from '../ui/bulle.js'
+import { demarrerAmbiance } from '../son.js'
 
 export default class Titre extends Phaser.Scene {
   constructor() { super('Titre') }
@@ -25,6 +26,7 @@ export default class Titre extends Phaser.Scene {
       this.input.keyboard.off('keydown-SPACE', commencer)
       this.input.keyboard.off('keydown-ENTER', commencer)
       invite.setVisible(false)
+      demarrerAmbiance()
       await afficherBulle(this, INTRO)
       this.scene.start('Village')
     }

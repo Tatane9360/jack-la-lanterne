@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0b0705">
   <title>Jack et la lanterne</title>
+  <meta name="description" content="Un petit jeu 2D pour découvrir l'histoire d'Halloween à la lueur d'une lanterne.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect x='7' y='1' width='2' height='3' fill='%235a7d3a'/%3E%3Crect x='3' y='4' width='10' height='10' fill='%23e8731a'/%3E%3Crect x='5' y='7' width='2' height='2' fill='%23ffcf6b'/%3E%3Crect x='9' y='7' width='2' height='2' fill='%23ffcf6b'/%3E%3Crect x='5' y='11' width='6' height='1' fill='%23ffcf6b'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
@@ -12,6 +14,12 @@
     html, body { margin: 0; height: 100%; background: #0b0705; overflow: hidden; }
     body { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
     #jeu { width: 100vw; height: 100dvh; }
+    #son {
+      position: fixed; top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right));
+      font: italic 16px "IM Fell English", Georgia, serif; color: #dcc79a;
+      background: rgba(11, 7, 5, 0.6); border: 1px solid #b9a272; padding: 6px 12px; cursor: pointer;
+    }
+    #son:focus-visible { outline: 2px solid #e8731a; outline-offset: 2px; }
   </style>
 </head>
 <body>

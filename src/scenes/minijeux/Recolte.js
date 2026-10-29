@@ -112,7 +112,7 @@ export default class Recolte extends Phaser.Scene {
     this.dire('Le plus gros fera la lanterne !')
     const { width } = this.scale
     this.tweens.add({
-      targets: gros, x: width / 2, y: 140, scale: 2.2 / gros.taille, duration: 700, ease: 'Sine.inOut',
+      targets: gros, x: width / 2, y: 210, scale: 2.2 / gros.taille, duration: 700, ease: 'Sine.inOut',
       onComplete: () => {
         const visage = this.add.graphics().fillStyle(0xffcf6b)
         visage.fillTriangle(-18, 22, -6, 22, -12, 10).fillTriangle(6, 22, 18, 22, 12, 10)

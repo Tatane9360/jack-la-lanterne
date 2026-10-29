@@ -1,0 +1,103 @@
+<h2>Le village vu de dessus (proposition)</h2>
+<p class="subtitle">Style C (encre sur parchemin), vue de dessus à la Pokémon, déplacement dans les quatre directions. La nuit sera plus sombre en vrai : ici le noir est volontairement atténué pour que tu voies toute la carte.</p>
+
+<div class="mockup">
+  <div class="mockup-header">Carte : départ à la ferme, fin à la boutique d'aujourd'hui</div>
+  <div class="mockup-body">
+    <svg viewBox="0 0 600 380" width="100%" font-family="Georgia, serif">
+      <defs>
+        <radialGradient id="gMap" cx="170" cy="240" r="260" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#0b0705" stop-opacity="0"/>
+          <stop offset=".55" stop-color="#0b0705" stop-opacity=".2"/>
+          <stop offset="1" stop-color="#0b0705" stop-opacity=".65"/>
+        </radialGradient>
+        <radialGradient id="gLamp" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#ffcf6b" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#ffcf6b" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="600" height="380" fill="#dcc79a"/>
+
+      <!-- chemins -->
+      <g stroke="#2b1d10" stroke-width="2" stroke-dasharray="6 6" fill="none" stroke-linecap="round" opacity=".7">
+        <path d="M170 215 C170 170 160 140 160 110"/>
+        <path d="M185 235 C260 220 300 160 320 100"/>
+        <path d="M190 250 C260 280 320 285 380 270"/>
+        <path d="M340 100 C420 110 470 130 520 150"/>
+        <path d="M420 265 C470 240 510 200 525 175"/>
+      </g>
+
+      <!-- Samhain : cercle de pierres + feu -->
+      <g stroke="#2b1d10" stroke-width="2" fill="#dcc79a">
+        <circle cx="130" cy="78" r="7"/><circle cx="152" cy="62" r="7"/><circle cx="178" cy="64" r="7"/>
+        <circle cx="196" cy="82" r="7"/><circle cx="180" cy="102" r="7"/><circle cx="152" cy="106" r="7"/>
+        <circle cx="132" cy="98" r="7"/>
+      </g>
+      <path d="M160 92 q-6 -10 0 -18 q2 8 8 10 q-2 6 -8 8z" fill="#c0552b" stroke="#2b1d10" stroke-width="1.5"/>
+      <text x="80" y="140" font-size="14" fill="#2b1d10" font-style="italic">Samhain, les Celtes</text>
+
+      <!-- Chapelle -->
+      <g stroke="#2b1d10" stroke-width="2" fill="#dcc79a">
+        <rect x="296" y="50" width="56" height="44"/>
+        <path d="M290 50 L324 24 L358 50Z"/>
+        <path d="M324 24 v-16 M318 14 h12" fill="none"/>
+      </g>
+      <text x="270" y="116" font-size="14" fill="#2b1d10" font-style="italic">La chapelle, Toussaint</text>
+
+      <!-- Ferme (départ) -->
+      <g stroke="#2b1d10" stroke-width="2" fill="#dcc79a">
+        <rect x="100" y="215" width="58" height="40"/>
+        <path d="M94 215 L129 190 L164 215Z"/>
+        <rect x="118" y="234" width="12" height="21"/>
+      </g>
+      <g stroke="#2b1d10" stroke-width="1" opacity=".6">
+        <path d="M60 270 l40 -8 M60 278 l60 -10 M70 286 l70 -10 M90 292 l60 -8"/>
+      </g>
+      <g stroke="#2b1d10" stroke-width="1.5" fill="#dcc79a">
+        <ellipse cx="82" cy="236" rx="8" ry="6"/><ellipse cx="68" cy="248" rx="8" ry="6"/>
+      </g>
+      <text x="60" y="318" font-size="14" fill="#2b1d10" font-style="italic">La ferme irlandaise (DÉPART)</text>
+
+      <!-- Rue américaine -->
+      <g stroke="#2b1d10" stroke-width="2" fill="#dcc79a">
+        <rect x="350" y="290" width="34" height="28"/><path d="M346 290 L367 274 L388 290Z"/>
+        <rect x="396" y="290" width="34" height="28"/><path d="M392 290 L413 274 L434 290Z"/>
+        <rect x="442" y="290" width="34" height="28"/><path d="M438 290 L459 274 L480 290Z"/>
+      </g>
+      <text x="355" y="342" font-size="14" fill="#2b1d10" font-style="italic">La rue américaine</text>
+
+      <!-- Boutique aujourd'hui (fin) -->
+      <g stroke="#2b1d10" stroke-width="2" fill="#dcc79a">
+        <rect x="500" y="140" width="70" height="46"/>
+        <path d="M494 140 h82 v-12 h-82z"/>
+        <rect x="520" y="158" width="14" height="28"/>
+        <rect x="544" y="156" width="16" height="14"/>
+      </g>
+      <text x="462" y="210" font-size="14" fill="#2b1d10" font-style="italic">La boutique d'aujourd'hui (FIN)</text>
+
+      <!-- obscurité + lanterne -->
+      <rect width="600" height="380" fill="url(#gMap)"/>
+      <circle cx="172" cy="244" r="40" fill="url(#gLamp)"/>
+      <circle cx="172" cy="244" r="5" fill="#2b1d10"/>
+      <circle cx="177" cy="248" r="2.5" fill="#ffcf6b"/>
+      <text x="184" y="236" font-size="12" fill="#2b1d10">Jack</text>
+    </svg>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="libre" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>Libre dès le départ</h3>
+      <p>Jack peut aller dans n'importe quel quartier, dans l'ordre qu'il veut. Plus « open world », mais l'ordre des anecdotes est moins maîtrisé.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="guide" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>Libre, avec un fil lumineux</h3>
+      <p>Tout est accessible, mais une lueur indique la prochaine étape. La boutique, avec la chute finale, ne s'éclaire qu'après les autres quartiers.</p>
+    </div>
+  </div>
+</div>

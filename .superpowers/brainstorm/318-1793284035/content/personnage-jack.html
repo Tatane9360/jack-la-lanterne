@@ -1,0 +1,73 @@
+<h2>À quoi ressemble Jack, le personnage en sprite ?</h2>
+<p class="subtitle">Trois silhouettes possibles, toutes avec la lanterne en navet. Ce sont des croquis très simples : le vrai sprite aura des animations (marche dans les quatre directions, lanterne qui se balance). Clique sur celui qui te parle.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="fantome" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#4a3926">
+      <svg viewBox="0 0 32 32" width="100%" shape-rendering="crispEdges">
+        <defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffb347" stop-opacity=".9"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient></defs>
+        <circle cx="26" cy="21" r="10" fill="url(#g1)"/>
+        <g fill="#f3ecd8">
+          <rect x="12" y="8" width="8" height="1"/><rect x="11" y="9" width="10" height="1"/><rect x="10" y="10" width="12" height="15"/>
+          <rect x="10" y="25" width="3" height="2"/><rect x="14" y="25" width="3" height="2"/><rect x="19" y="25" width="3" height="2"/>
+          <rect x="22" y="17" width="3" height="2"/>
+        </g>
+        <g fill="#2b1d10"><rect x="13" y="13" width="2" height="3"/><rect x="18" y="13" width="2" height="3"/><rect x="15" y="18" width="3" height="2"/></g>
+        <rect x="25" y="18" width="6" height="7" fill="#e6dcc3"/><rect x="27" y="16" width="2" height="2" fill="#5a7d3a"/>
+        <g fill="#2b1d10"><rect x="26" y="20" width="1" height="1"/><rect x="29" y="20" width="1" height="1"/><rect x="27" y="22" width="2" height="1"/></g>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>1 · L'âme-fantôme</h3>
+      <p>Un petit fantôme blanc qui flotte et tient sa lanterne. Le plus mignon et le plus lisible dans le noir : il se voit tout de suite.</p>
+      <p><b>+</b> Sympathique, très facile à animer.<br><b>−</b> Un fantôme blanc est le choix le plus attendu.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="vagabond" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#4a3926">
+      <svg viewBox="0 0 32 32" width="100%" shape-rendering="crispEdges">
+        <defs><radialGradient id="g2" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffb347" stop-opacity=".9"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient></defs>
+        <circle cx="26" cy="21" r="10" fill="url(#g2)"/>
+        <g fill="#1c130a">
+          <rect x="11" y="7" width="10" height="3"/><rect x="10" y="10" width="12" height="3"/><rect x="9" y="13" width="14" height="13"/>
+          <rect x="22" y="17" width="3" height="2"/>
+        </g>
+        <rect x="13" y="11" width="6" height="5" fill="#ecd9b0"/>
+        <g fill="#2b1d10"><rect x="14" y="12" width="1" height="2"/><rect x="17" y="12" width="1" height="2"/></g>
+        <rect x="25" y="18" width="6" height="7" fill="#e6dcc3"/><rect x="27" y="16" width="2" height="2" fill="#5a7d3a"/>
+        <g fill="#2b1d10"><rect x="26" y="20" width="1" height="1"/><rect x="29" y="20" width="1" height="1"/><rect x="27" y="22" width="2" height="1"/></g>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>2 · Le vagabond à capuche</h3>
+      <p>Une silhouette sombre, voûtée, avec juste un visage pâle dans la capuche. Plus proche de la légende : un vieil homme errant.</p>
+      <p><b>+</b> Plus d'ambiance et de mystère, bien adapté au style gravure.<br><b>−</b> Moins immédiatement drôle.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="squelette" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#4a3926">
+      <svg viewBox="0 0 32 32" width="100%" shape-rendering="crispEdges">
+        <defs><radialGradient id="g3" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffb347" stop-opacity=".9"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient></defs>
+        <circle cx="26" cy="21" r="10" fill="url(#g3)"/>
+        <g fill="#f3ecd8">
+          <rect x="12" y="7" width="8" height="7"/><rect x="14" y="16" width="4" height="6"/>
+          <rect x="14" y="22" width="1" height="5"/><rect x="17" y="22" width="1" height="5"/>
+          <rect x="22" y="17" width="3" height="1"/>
+        </g>
+        <g fill="#2b1d10"><rect x="13" y="9" width="2" height="2"/><rect x="17" y="9" width="2" height="2"/><rect x="15" y="12" width="2" height="1"/></g>
+        <rect x="12" y="14" width="8" height="2" fill="#e8731a"/><rect x="12" y="16" width="2" height="4" fill="#e8731a"/>
+        <rect x="25" y="18" width="6" height="7" fill="#e6dcc3"/><rect x="27" y="16" width="2" height="2" fill="#5a7d3a"/>
+        <g fill="#2b1d10"><rect x="26" y="20" width="1" height="1"/><rect x="29" y="20" width="1" height="1"/><rect x="27" y="22" width="2" height="1"/></g>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>3 · Le mini-squelette à écharpe</h3>
+      <p>Un petit squelette sympa avec une écharpe orange. Le côté « sombre-fun » le plus marqué, et l'écharpe donne la seule tache de couleur vive.</p>
+      <p><b>+</b> Drôle, reconnaissable, très Halloween.<br><b>−</b> Un peu éloigné de la légende de Jack.</p>
+    </div>
+  </div>
+
+</div>

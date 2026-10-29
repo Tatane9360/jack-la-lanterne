@@ -30,5 +30,16 @@ for (const evenement of ['resize', 'orientationchange']) {
   window.addEventListener(evenement, () => setTimeout(() => jeu.scale.refresh(), 150))
 }
 
+// Rotation automatique verrouillée : le navigateur reste en portrait même téléphone tourné.
+// Plein écran + verrou paysage (Android/Chrome) ; ailleurs (iPhone), le message invite à déverrouiller la rotation.
+async function pleinEcranPaysage() {
+  try {
+    await document.documentElement.requestFullscreen?.()
+    await screen.orientation?.lock?.('landscape')
+  } catch { /* non pris en charge : le message d'aide reste affiché */ }
+}
+document.getElementById('paysage').addEventListener('click', pleinEcranPaysage)
+if (!document.documentElement.requestFullscreen) document.getElementById('paysage').hidden = true
+
 // Accès depuis la console pour les tests manuels.
 if (import.meta.env.DEV) window.jeu = jeu

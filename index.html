@@ -23,14 +23,25 @@
     #tourner {
       display: none; position: fixed; inset: 0; z-index: 10; padding: 24px;
       align-items: center; justify-content: center; text-align: center;
+      flex-direction: column; gap: 8px;
       background: #0b0705; color: #dcc79a; font: 24px/1.4 "IM Fell English", Georgia, serif;
+    }
+    #tourner p { margin: 0; }
+    #tourner .aide { font-size: 17px; font-style: italic; color: #b9a272; }
+    #paysage {
+      font: 22px "IM Fell English", Georgia, serif; color: #2b1d10; background: #e8731a;
+      border: 0; padding: 10px 22px; margin: 12px 0;
     }
     @media (orientation: portrait) and (pointer: coarse) { #tourner { display: flex; } }
   </style>
 </head>
 <body>
   <div id="jeu"></div>
-  <p id="tourner">Tourne ton téléphone à l'horizontale pour suivre Jack.</p>
+  <div id="tourner">
+    <p>Tourne ton téléphone à l'horizontale pour suivre Jack.</p>
+    <button id="paysage">Jouer en plein écran</button>
+    <p class="aide">L'écran ne tourne pas ? Active la rotation automatique de ton téléphone.</p>
+  </div>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

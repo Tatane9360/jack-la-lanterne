@@ -102,3 +102,13 @@ test('chasse : la lanterne chauffe en approchant, la flèche vient si on tarde',
   assert.equal(indiceFort(10, 30), false)
   assert.equal(indiceFort(30, 30), true)
 })
+
+test('données : chaque lieu a un récit et sa carte d\'anecdote', async () => {
+  const { LIEUX } = await import('../src/data/lieux.js')
+  const { CARTES } = await import('../src/data/cartes.js')
+  for (const l of LIEUX) {
+    assert.ok(l.recit.length > 0, l.id)
+    assert.ok(l.recit.every((p) => typeof p === 'string' || typeof p.diable === 'string'), l.id)
+    assert.ok(CARTES.some((c) => c.lieu === l.id), l.id)
+  }
+})

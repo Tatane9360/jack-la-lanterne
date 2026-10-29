@@ -1,7 +1,35 @@
-// Cartes à collectionner : facultatives, cachées dans le village (x, y en tuiles). Une anecdote drôle chacune.
-// Vérifiées le 2026-10-29 (sources en commentaire). Une carte sans source sérieuse n'entre pas.
+// Cartes à collectionner : les anecdotes historiques du jeu. Vérifiées le 2026-10-29 (sources en commentaire).
+// Une carte sans source sérieuse n'entre pas. Règles de formulation : design.md §6.
+// Avec lieu : gagnée en finissant ce lieu (le fait principal de l'époque). Sans : facultative, cachée dans le village (x, y en tuiles).
 
 export const CARTES = [
+  {
+    // Formulation prudente : Hutton (Stations of the Sun), Rogers, Roud jugent le lien mal étayé ;
+    // Wikipedia « Halloween » : l'origine païenne est une théorie, d'autres chercheurs la contestent.
+    id: 'samhain', lieu: 'samhain', titre: "Samhain, ancêtre d'Halloween ?",
+    texte: "Les Celtes fêtaient Samhain à la fin des récoltes, vers le 1er novembre. L'ancêtre d'Halloween ? On le lit partout… mais les historiens restent prudents : les preuves sont minces.",
+  },
+  {
+    // Merriam-Webster et Etymonline : « Hallowe'en », contraction écossaise de « All Hallows' Even », veille de la Toussaint.
+    id: 'chapelle', lieu: 'chapelle', titre: 'Le nom « Halloween »',
+    texte: "« Halloween » vient de « All Hallows' Eve » : la veille de la Toussaint. Les Écossais l'ont raccourci en « Hallowe'en ». Paresseux, mais efficace.",
+  },
+  {
+    // Wikipedia « Halloween » (jack-o'-lantern) : navets en Irlande et en Écosse, citrouille adoptée en Amérique du Nord.
+    id: 'ferme', lieu: 'ferme', titre: 'Les premières lanternes',
+    texte: "Les premières lanternes étaient des navets, en Irlande et en Écosse. En Amérique, les immigrants ont trouvé la citrouille : plus grosse, plus tendre. Les doigts en os disent merci.",
+  },
+  {
+    // Souling (au moins XVe siècle) et guising : Wikipedia « Halloween ». Kingston (Ontario) 1911 : N. Rogers.
+    // « Trick or treat » : première attestation en Alberta en 1927 (archives d'Edmonton, CBC), répandu aux États-Unis dans les années 1930.
+    id: 'rue', lieu: 'rue', titre: 'Bonbon ou sort',
+    texte: "Au Moyen Âge, on passait déjà de porte en porte : une prière contre un gâteau. En Amérique du Nord, des enfants déguisés frappent aux portes à Kingston, au Canada, dès 1911. « Trick or treat » apparaît en Alberta en 1927, puis conquiert les États-Unis dans les années 1930.",
+  },
+  {
+    // Arrivée en France par le marketing : vérifié par le porteur. Pas d'année précise (1997 ou 1999 selon les sources).
+    id: 'boutique', lieu: 'boutique', titre: 'Halloween en France',
+    texte: "En France, Halloween est arrivé à la fin des années 1990… surtout grâce aux publicitaires. Les bonbons d'abord, le folklore ensuite.",
+  },
   {
     // Robert Burns, poème « Halloween » (1785) ; Smithsonian Magazine, « Kale as Matchmaker ».
     id: 'noisettes', titre: 'Les noisettes au feu', x: 4, y: 10,

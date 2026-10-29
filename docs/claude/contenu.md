@@ -4,12 +4,18 @@
 
 ## Faits
 
-- Aucun fait n'entre dans le jeu sans source vérifiée. Noter la source en commentaire au-dessus du texte, dans `src/data/lieux.js`.
+- Aucun fait n'entre dans le jeu sans source vérifiée. Noter la source en commentaire au-dessus du texte, dans `src/data/cartes.js`.
 - Formulations imposées (`design.md` §6) :
   - La légende de Jack est toujours introduite par « la légende raconte ».
   - Campagne France Télécom : « à la fin des années 1990 », sans année précise.
   - Samhain : formulation prudente, car le lien avec Halloween est discuté par les historiens.
 - Vérifiés le 2026-10-29 : *All Hallows' Eve* = veille de la Toussaint ; « trick or treat » attesté pour la première fois en Alberta (Canada) en 1927, puis répandu aux États-Unis dans les années 1930 ; guising à Kingston (Canada) en 1911.
+
+## Lore et anecdotes
+
+- Les dialogues (Jack et le diable, `src/data/lieux.js`) racontent le lore et la légende, jamais un fait historique.
+- Les faits historiques vivent dans les cartes (`src/data/cartes.js`), avec leur source en commentaire. Chaque lieu donne sa carte en fin de récit.
+- Les éléments de la légende de Stingy Jack suivent la version sourcée en tête de `lieux.js`.
 
 ## Ton
 

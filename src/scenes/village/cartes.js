@@ -5,7 +5,13 @@ import { afficherBulle } from '../../ui/bulle.js'
 import { bruit } from '../../son.js'
 
 const DISTANCE = 30
-const pages = (c) => [`« ${c.titre} »`, c.texte]
+const PAGE_MAX = 180 // caractères : au-delà, le texte déborde de la bulle (3 lignes)
+// Titre, puis le texte découpé en pages de phrases entières.
+const pages = (c) => [`« ${c.titre} »`, ...c.texte.match(/[^.!?…]+[.!?…]+[»\s]*/g).reduce((ps, phrase) => {
+  if (ps.length && (ps.at(-1) + phrase).length <= PAGE_MAX) ps[ps.length - 1] += phrase
+  else ps.push(phrase)
+  return ps
+}, []).map((t) => t.trim())]
 
 // Cartes trouvées (ids), gardées d'un retour au village à l'autre ; « Rejouer » les efface.
 export const cartesTrouvees = (registry) => {
@@ -19,10 +25,20 @@ export function relireCartes(scene) {
   return afficherBulle(scene, trouvees.length ? trouvees.flatMap(pages) : 'Aucune carte pour l\'instant. Elles brillent faiblement dans le noir…')
 }
 
+// Carte d'un lieu, gagnée en le finissant (déjà gagnée : rien, pour qui revoit le lieu).
+export function donnerCarte(scene, id) {
+  const c = CARTES.find((c) => c.lieu === id)
+  const trouvees = cartesTrouvees(scene.registry)
+  if (!c || trouvees.has(c.id)) return
+  trouvees.add(c.id)
+  bruit('carte')
+  return afficherBulle(scene, ["Une carte ! Celle-là, c'est de la vraie histoire.", ...pages(c)])
+}
+
 // Petites cartes de parchemin qui flottent dans le village, et compteur cliquable en haut à droite.
 export function creerCartes(scene) {
   const trouvees = cartesTrouvees(scene.registry)
-  const restantes = CARTES.filter((c) => !trouvees.has(c.id)).map((c) => {
+  const restantes = CARTES.filter((c) => !c.lieu && !trouvees.has(c.id)).map((c) => {
     const x = c.x * TUILE + TUILE / 2, y = c.y * TUILE + TUILE / 2
     const s = scene.add.rectangle(x, y, 12, 16, 0xdcc79a).setStrokeStyle(2, 0x2b1d10).setDepth(y)
     scene.tweens.add({ targets: s, y: y - 4, angle: 8, yoyo: true, repeat: -1, duration: 900, ease: 'Sine.inOut' })

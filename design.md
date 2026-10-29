@@ -10,6 +10,8 @@ Un petit jeu web 2D qui fait découvrir l'histoire d'Halloween sans ressembler �
 
 **Priorité absolue : raconter l'histoire.** L'ambiance, la lumière et les mini-jeux sont au service des anecdotes, jamais l'inverse. **[décidé]**
 
+**Mise à jour du 2026-10-29 [décidé] :** le jeu met d'abord en avant le lore (l'histoire de Jack et du diable, §12), porté par les dialogues des mini-jeux. Les anecdotes historiques passent dans les cartes à collectionner : une carte gagnée à chaque lieu (le fait principal de l'époque), plus des cartes facultatives cachées dans le village.
+
 ## 2. Public et usage
 
 - Public : des gens simplement intrigués par l'histoire d'Halloween, pas un public scolaire. **[décidé]**
@@ -133,4 +135,6 @@ But : donner une raison d'aller jusqu'au bout, une intrigue en plus des anecdote
 - **Retournement à la ferme :** le Jack de la légende, c'est notre Jack. Des siècles d'errance lui avaient fait oublier. Le diable vient reprendre sa braise.
 - **Révélation :** le vendeur de la boutique est le diable. Il revendique le marketing de la fin des années 1990 et réclame la braise (« sans elle, tu pourrais enfin te reposer ») contre une citrouille en plastique. Jack refuse : qui racontera Halloween ?
 - **Fin :** le diable se cache dans une citrouille du village (la chasse finale). Jack le trouve et le piège : « roulé deux fois ».
+- **Dialogues (mise à jour) :** chaque mini-jeu s'ouvre et se referme sur un dialogue Jack–diable (portrait et nom de qui parle). L'arc : le diable dit que Jack lui doit une tournée (Samhain) ; il raconte le tour de la pièce et de la croix d'argent (chapelle) ; Jack se souvient du pommier, de sa mort et de la braise (ferme) ; la braise brûle tant qu'on parle de Jack, et le diable veut qu'on l'oublie (rue) ; marché refusé, pari de la citrouille (boutique) ; le diable est piégé, « roulé trois fois » (citrouille cachée).
+- **Mobile :** le village est grossi ×1,5 sur écran tactile, l'interface garde sa taille.
 - **Règle :** tout ce que dit le diable est de la fiction. Les faits qu'il cite restent ceux de §6, avec les mêmes formulations imposées.

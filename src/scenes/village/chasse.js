@@ -3,6 +3,7 @@ import { TUILE } from '../../config.js'
 import { CACHETTES } from '../../data/carte.js'
 import { chaleur, indiceFort } from '../../logique/chasse.js'
 import { afficherBulle } from '../../ui/bulle.js'
+import { D } from '../../data/lieux.js'
 import { boutonQuitter } from '../minijeux/finir.js'
 import { bruit } from '../../son.js'
 
@@ -20,8 +21,8 @@ export function creerChasse(scene) {
 
   return {
     intro: () => afficherBulle(scene, [
-      "Il a filé ! Il s'est caché dans une citrouille du village, je le sens.",
-      "Ma lanterne s'agite quand on s'en approche. Trouve-le !",
+      "Il a sauté dans une citrouille… et il a filé avec ! Elle est quelque part dans le village.",
+      "Ma lanterne s'agite quand on s'en approche. Trouve-le avant qu'il en sorte !",
     ]),
     // Flèche vers la cachette seulement si on tarde.
     cible: () => (indiceFort(t, DELAI_INDICE) ? pos : null),
@@ -40,8 +41,10 @@ export function creerChasse(scene) {
       bruit('trouvee')
       scene.tweens.add({ targets: citrouille, y: pos.y - 20, scale: 3, yoyo: true, duration: 300, ease: 'Back.out' })
       await afficherBulle(scene, [
-        'Trouvé ! Je referme le couvercle. Roulé deux fois, le diable.',
-        'Ma braise brille comme jamais. Minuit peut sonner.',
+        'Trouvé ! Je referme le couvercle, et je grave une petite croix dessus. Roulé trois fois, le diable.',
+        D('Jack ! Laisse-moi sortir !'),
+        "Quand on aura fini de raconter Halloween. Autant dire jamais.",
+        'Minuit sonne. Ma braise brille comme jamais.',
       ])
       scene.scene.start('Recap')
     },

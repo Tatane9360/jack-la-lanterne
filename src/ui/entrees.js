@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { creerJoystick } from './joystick.js'
 
-// Clavier (flèches, ZQSD, WASD) ou joystick tactile : direction de norme ≤ 1.
+// Clavier (flèches, ZQSD, WASD) ou joystick tactile (jamais à la souris) : direction de norme ≤ 1.
 // Action : Espace / Entrée (le tactile passe par des boutons à l'écran).
 export function creerEntrees(scene) {
   const k = scene.input.keyboard.addKeys('UP,DOWN,LEFT,RIGHT,Z,Q,S,D,W,A,SPACE,ENTER')

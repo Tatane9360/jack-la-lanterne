@@ -15,7 +15,7 @@ export function creerJoystick(scene) {
   scene.input.addPointer(1) // joystick + un second doigt pour toucher un bouton
   scene.input.on('pointerdown', (p) => {
     const { x, y } = logique(p)
-    if (doigt || x > ECRAN.width / 2) return
+    if (doigt || !p.wasTouch || x > ECRAN.width / 2) return // tactile seulement : à la souris, c'est le clavier
     doigt = p
     base.setPosition(x, y).setVisible(true)
     manette.setPosition(x, y).setVisible(true)

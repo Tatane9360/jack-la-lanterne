@@ -68,7 +68,7 @@ export function demarrerAmbiance(scene) {
   creerBouton()
 }
 
-// Bouton HTML (accessible au clavier et aux lecteurs d'écran) en haut à droite.
+// Bouton HTML (accessible au clavier et aux lecteurs d'écran) en haut à gauche.
 function creerBouton() {
   const b = document.createElement('button')
   b.id = 'son'

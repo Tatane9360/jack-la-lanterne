@@ -15,7 +15,7 @@
     body { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
     #jeu { width: 100vw; height: 100dvh; }
     #son {
-      position: fixed; top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right));
+      position: fixed; top: max(10px, env(safe-area-inset-top)); left: max(10px, env(safe-area-inset-left)); /* à gauche : la croix des mini-jeux est à droite */
       font: italic 16px "IM Fell English", Georgia, serif; color: #dcc79a;
       background: rgba(11, 7, 5, 0.6); border: 1px solid #b9a272; padding: 6px 12px; cursor: pointer;
     }

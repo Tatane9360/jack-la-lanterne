@@ -45,7 +45,7 @@ export default class Portes extends Phaser.Scene {
     this.invite = creerInvite(this, () => this.frapper())
     this.entrees = creerEntrees(this)
 
-    this.add.text(20, 16, lieu.nom, { fontFamily: POLICE, fontSize: 30, color: '#e8731a' }).setDepth(PROF.INTERFACE)
+    this.add.text(width / 2, 16, lieu.nom, { fontFamily: POLICE, fontSize: 30, color: '#e8731a' }).setOrigin(0.5, 0).setDepth(PROF.INTERFACE)
     this.score = this.add.text(width - 80, 16, '', { fontFamily: POLICE, fontSize: 30, color: '#dcc79a' }).setOrigin(1, 0).setDepth(PROF.INTERFACE)
     this.majScore()
 

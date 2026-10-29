@@ -5,7 +5,7 @@ import Titre from './scenes/Titre.js'
 import Village from './scenes/Village.js'
 import Anecdote from './scenes/Anecdote.js'
 import Recap from './scenes/Recap.js'
-import Navet from './scenes/minijeux/Navet.js'
+import Recolte from './scenes/minijeux/Recolte.js'
 import Feu from './scenes/minijeux/Feu.js'
 import Portes from './scenes/minijeux/Portes.js'
 import Boutique from './scenes/minijeux/Boutique.js'
@@ -22,7 +22,7 @@ const jeu = new Phaser.Game({
   backgroundColor: '#0b0705',
   physics: { default: 'arcade' },
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
-  scene: [Boot, Titre, Village, Anecdote, Recap, Navet, Feu, Portes, Boutique],
+  scene: [Boot, Titre, Village, Anecdote, Recap, Recolte, Feu, Portes, Boutique],
 })
 
 // Phaser rate parfois le passage portrait → paysage (le jeu reste à la taille du portrait) : on force le recalcul.

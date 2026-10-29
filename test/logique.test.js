@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { creerProgression, prochainLieu, estAccessible, terminer, partieFinie } from '../src/logique/progression.js'
 import { vecteurJoystick } from '../src/logique/joystick.js'
-import { visageFini } from '../src/logique/navet.js'
+import { jauge, tirer, creerRecolte, recolter, issueRecolte } from '../src/logique/recolte.js'
 import { creerFeu, majFeu, issueFeu, DUREE_FEU } from '../src/logique/feu.js'
 import { creerRue, majRue, frapper, issueRue } from '../src/logique/portes.js'
 import { creerRayon, poser, rayonPlein } from '../src/logique/boutique.js'
@@ -23,9 +23,26 @@ test('joystick : borné au rayon, nul dans la zone morte', () => {
   assert.deepEqual(vecteurJoystick(100, 0, 24), { x: 1, y: 0 })
 })
 
-test('navet : il faut deux yeux et une bouche', () => {
-  assert.equal(visageFini([{ x: .33, y: .4 }, { x: .67, y: .4 }]), false)
-  assert.equal(visageFini([{ x: .33, y: .4 }, { x: .67, y: .4 }, { x: .5, y: .7 }]), true)
+test("récolte : la jauge fait l'aller-retour, seul le bon dosage arrache", () => {
+  assert.equal(jauge(0, 2), 0)
+  assert.equal(jauge(1, 2), 1)
+  assert.equal(jauge(1.5, 2), 0.5)
+  assert.equal(tirer(0.2), 'resiste')
+  assert.equal(tirer(0.7), 'arrache')
+  assert.equal(tirer(0.98), 'casse')
+})
+
+test("récolte : gagnée à 3 navets, perdue quand il n'en reste plus assez", () => {
+  let r = creerRecolte(4, 3)
+  r = recolter(r, 'arrache')
+  r = recolter(r, 'resiste')          // rien ne change, on retente
+  assert.equal(r.restants, 3)
+  r = recolter(r, 'casse')
+  assert.equal(issueRecolte(r), null)
+  r = recolter(r, 'casse')
+  assert.equal(issueRecolte(r), 'perdu')
+  r = recolter(recolter(recolter(creerRecolte(4, 3), 'arrache'), 'arrache'), 'arrache')
+  assert.equal(issueRecolte(r), 'gagne')
 })
 
 test("feu : gagné si le feu tient jusqu'au bout, perdu s'il s'éteint", () => {

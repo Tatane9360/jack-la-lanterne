@@ -33,8 +33,8 @@ export const LIEUX = [
     recap: "Halloween, c'est « All Hallows' Eve » : la veille de la Toussaint.",
   },
   {
-    id: 'ferme', nom: 'La ferme irlandaise', epoque: 'XIXᵉ siècle', batiment: 'ferme', x: 8, y: 22, porte: { x: 8, y: 22 }, scene: 'Navet',
-    consigne: 'Sculpte la lanterne : trace deux yeux et une bouche sur le navet.',
+    id: 'ferme', nom: 'La ferme irlandaise', epoque: 'XIXᵉ siècle', batiment: 'ferme', x: 8, y: 22, porte: { x: 8, y: 22 }, scene: 'Recolte',
+    consigne: "Il me faut un navet pour ma lanterne. Tire quand la jauge est dans l'orange : trop mou, il résiste ; trop fort, les fanes cassent. Arraches-en 3 !",
     // Wikipedia « Halloween » (jack-o'-lantern) : navets en Irlande et en Écosse, citrouille adoptée en Amérique du Nord.
     anecdote: [
       "Les premières lanternes étaient des navets, en Irlande et en Écosse. En Amérique, les immigrants ont trouvé la citrouille : plus grosse, plus tendre.",

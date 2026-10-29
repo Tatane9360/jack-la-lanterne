@@ -6,7 +6,7 @@ import { creerJack } from '../../ui/jack.js'
 import { creerEntrees } from '../../ui/entrees.js'
 import { creerLumiere, lanterneDe } from '../../ui/lumiere.js'
 import { creerInvite } from '../../ui/invite.js'
-import { gagner, rejouer } from './finir.js'
+import { gagner, rejouer, boutonQuitter } from './finir.js'
 
 const DELAIS = [14, 20, 26, 32, 38, 44] // secondes avant que chaque maison n'éteigne, mélangées à chaque partie
 const OBJECTIF = 4
@@ -23,6 +23,7 @@ export default class Portes extends Phaser.Scene {
     const { width, height } = this.scale
     this.cameras.main.setBackgroundColor('#0b0705')
     this.add.tileSprite(0, 0, width, height, 'tuiles', 0).setOrigin(0)
+    boutonQuitter(this)
     this.add.tileSprite(0, BAS_MAISONS + 20, width, 150, 'tuiles', 4).setOrigin(0)
 
     this.rue = creerRue(Phaser.Utils.Array.Shuffle([...DELAIS]), OBJECTIF)
@@ -36,7 +37,7 @@ export default class Portes extends Phaser.Scene {
     this.entrees = creerEntrees(this)
 
     this.add.text(20, 16, lieu.nom, { fontFamily: POLICE, fontSize: 30, color: '#e8731a' }).setDepth(PROF.INTERFACE)
-    this.score = this.add.text(width - 20, 16, '', { fontFamily: POLICE, fontSize: 30, color: '#dcc79a' }).setOrigin(1, 0).setDepth(PROF.INTERFACE)
+    this.score = this.add.text(width - 80, 16, '', { fontFamily: POLICE, fontSize: 30, color: '#dcc79a' }).setOrigin(1, 0).setDepth(PROF.INTERFACE)
     this.majScore()
 
     await afficherBulle(this, lieu.consigne)

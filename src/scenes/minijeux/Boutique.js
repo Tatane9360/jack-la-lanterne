@@ -3,7 +3,7 @@ import { POLICE } from '../../config.js'
 import { creerRayon, poser, rayonPlein } from '../../logique/boutique.js'
 import { afficherBulle } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
-import { gagner } from './finir.js'
+import { gagner, boutonQuitter } from './finir.js'
 
 const TYPES = ['citrouille', 'bonbon', 'chapeau'] // une étagère par type, de haut en bas
 const COLONNES = [570, 680, 790]
@@ -19,6 +19,7 @@ export default class Boutique extends Phaser.Scene {
   async create({ lieu }) {
     this.lieu = lieu
     fondNuit(this, lieu.nom)
+    boutonQuitter(this)
     this.emplacements = TYPES.flatMap((type, r) => COLONNES.map((x) => ({ type, x, y: ETAGERES[r] })))
     this.rayon = creerRayon(this.emplacements.map((e) => e.type))
     this.dessinerMeubles()
@@ -38,7 +39,7 @@ export default class Boutique extends Phaser.Scene {
       return o
     })
 
-    this.chrono = this.add.text(this.scale.width - 24, 24, '', { fontFamily: POLICE, fontSize: 30, color: '#dcc79a' }).setOrigin(1, 0)
+    this.chrono = this.add.text(this.scale.width - 80, 24, '', { fontFamily: POLICE, fontSize: 30, color: '#dcc79a' }).setOrigin(1, 0)
     await afficherBulle(this, lieu.consigne)
 
     this.debut = this.time.now

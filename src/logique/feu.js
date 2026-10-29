@@ -1,4 +1,4 @@
-export const DUREE_FEU = 40          // secondes à tenir
+export const DUREE_FEU = 20          // secondes à tenir
 const DEGAT = 0.25                   // un esprit qui touche le feu
 
 export const creerFeu = () => ({ vie: 1, temps: 0 })

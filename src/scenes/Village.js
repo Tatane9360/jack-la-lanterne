@@ -9,6 +9,7 @@ import { creerEntrees } from '../ui/entrees.js'
 import { creerLumiere, lanterneDe } from '../ui/lumiere.js'
 import { creerInvite } from '../ui/invite.js'
 import { creerFrise } from './village/frise.js'
+import { creerCartes, relireCartes } from './village/cartes.js'
 
 // Tuiles → pixels du monde (centre horizontal de la tuile).
 const mx = (x) => x * TUILE + TUILE / 2
@@ -55,6 +56,9 @@ export default class Village extends Phaser.Scene {
     this.eclairer = creerLumiere(this)
     this.creerGuide()
     creerFrise(this, this.progression)
+    this.cartes = creerCartes(this)
+    this.cartes.compteur.on('pointerdown', (p, x, y, e) => { e.stopPropagation(); this.lire(() => relireCartes(this)) })
+    this.enLecture = false
     this.invite = creerInvite(this, () => this.entrer())
     this.entrees = creerEntrees(this)
   }
@@ -66,7 +70,18 @@ export default class Village extends Phaser.Scene {
     this.fleche = this.add.triangle(0, 0, 0, -12, 26, 0, 0, 12, ORANGE).setScrollFactor(0).setDepth(PROF.INTERFACE)
   }
 
+  // Jack s'arrête le temps de lire une carte.
+  async lire(bulle) {
+    if (this.enLecture) return
+    this.enLecture = true
+    this.invite.cacher()
+    await bulle()
+    this.enLecture = false
+  }
+
   entrer() {
+    if (this.enLecture) return
+    if (!this.lieuProche && this.carteProche) return this.lire(() => this.cartes.ramasser(this.carteProche))
     const l = this.lieuProche
     if (!l || !estAccessible(this.progression, l.id)) return
     this.registry.set('positionJack', { x: this.jack.x, y: this.jack.y })
@@ -74,9 +89,10 @@ export default class Village extends Phaser.Scene {
   }
 
   update(temps) {
-    this.jack.piloter(this.entrees.direction())
+    this.jack.piloter(this.enLecture ? { x: 0, y: 0 } : this.entrees.direction())
+    this.eclairer([lanterneDe(this.jack, temps), ...this.lueurs, ...this.cartes.lueurs()])
+    if (this.enLecture) return
 
-    this.eclairer([lanterneDe(this.jack, temps), ...this.lueurs])
     this.majGuide()
     this.majInvite()
     if (this.entrees.action()) this.entrer()
@@ -107,6 +123,8 @@ export default class Village extends Phaser.Scene {
       return Phaser.Math.Distance.Between(pieds.x, pieds.y, p.x, p.y) < DISTANCE_PORTE
     })
     const l = this.lieuProche
+    this.carteProche = !l && this.cartes.proche(pieds.x, pieds.y)
+    if (this.carteProche) return this.invite.montrer('Une carte ! Lire (toucher ou Espace)')
     if (!l) return this.invite.cacher()
     const ouvert = estAccessible(this.progression, l.id)
     const fait = this.progression.faits.has(l.id)

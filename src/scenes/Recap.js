@@ -3,6 +3,8 @@ import { POLICE } from '../config.js'
 import { LIEUX } from '../data/lieux.js'
 import { fondNuit } from '../ui/fond.js'
 import { typo } from '../ui/bulle.js'
+import { CARTES } from '../data/cartes.js'
+import { cartesTrouvees, relireCartes } from './village/cartes.js'
 
 // Écran final : les anecdotes en phrases courtes, faciles à raconter.
 export default class Recap extends Phaser.Scene {
@@ -27,19 +29,32 @@ export default class Recap extends Phaser.Scene {
       }
     })
 
-    const rejouer = this.add.text(width / 2, 506, 'Rejouer', {
+    const n = cartesTrouvees(this.registry).size
+    const cartes = this.add.text(width / 2 + 90, 506, `Tes cartes ${n}/${CARTES.length}`, {
+      fontFamily: POLICE, fontSize: 24, color: '#dcc79a', backgroundColor: '#2b1d10', padding: { x: 16, y: 8 },
+    }).setOrigin(0, 0.5).setAlpha(0)
+    const rejouer = this.add.text(width / 2 + 70, 506, 'Rejouer', {
       fontFamily: POLICE, fontSize: 28, color: '#2b1d10', backgroundColor: '#e8731a', padding: { x: 20, y: 6 },
-    }).setOrigin(0.5).setAlpha(0)
-    this.tweens.add({ targets: rejouer, alpha: 1, delay: 500 + LIEUX.length * 700, duration: 500 })
+    }).setOrigin(1, 0.5).setAlpha(0)
+    this.tweens.add({ targets: [rejouer, cartes], alpha: 1, delay: 500 + LIEUX.length * 700, duration: 500 })
     this.time.delayedCall(500 + LIEUX.length * 700, () => {
-      rejouer.setInteractive({ useHandCursor: true }).on('pointerdown', () => this.recommencer())
-      this.input.keyboard.once('keydown-ENTER', () => this.recommencer())
+      rejouer.setInteractive({ useHandCursor: true }).on('pointerdown', (p, x, y, e) => { e.stopPropagation(); this.recommencer() })
+      cartes.setInteractive({ useHandCursor: true }).on('pointerdown', async (p, x, y, e) => {
+        e.stopPropagation()
+        if (this.enLecture) return
+        this.enLecture = true
+        await relireCartes(this)
+        this.enLecture = false
+      })
+      this.input.keyboard.on('keydown-ENTER', () => this.recommencer())
     })
   }
 
   recommencer() {
+    if (this.enLecture) return // Entrée sert alors à tourner les pages
     this.registry.remove('progression')
     this.registry.remove('positionJack')
+    this.registry.remove('cartes')
     this.scene.start('Titre')
   }
 }

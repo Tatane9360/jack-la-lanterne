@@ -1,14 +1,16 @@
 import { zzfx, ZZFX } from 'zzfx'
 
-// Ambiance : musique et pluie en boucle (fichiers CC0 de public/sons, voir public/sons/LICENCES.md),
-// jouées par le gestionnaire de sons de Phaser. Bruitages : ZzFX, générés en code (licence MIT).
+// Sons du jeu : fichiers `src/sons/<nom>.mp3` (liste et crédits dans src/sons/A-LIRE.md et LICENCES.md),
+// joués par le gestionnaire de sons de Phaser. Un fichier absent : silence pour les ambiances,
+// bruitage ZzFX (généré en code, MIT) pour les bruitages qui en ont un.
 // Doit démarrer après un geste de l'utilisateur (règle des navigateurs).
-const VOLUME_BRUITS = 0.3
-let sons = null
-let muet = false // Phaser applique mute en différé : on garde notre propre valeur
+const VOLUME_BRUITS = 0.5
+const AMBIANCES = { musique: 0.45, pluie: 0.3, feu: 0.5 } // en boucle
+const VOLUMES = { frapper: 0.6, bonbon: 0.5, sort: 0.6, arrache: 0.5, casse: 0.5, resiste: 0.5, esprit: 0.4, pose: 0.4, carte: 0.5, trouvee: 0.6 }
+export const NOMS_SONS = [...Object.keys(AMBIANCES), ...Object.keys(VOLUMES)]
 
-// Paramètres ZzFX, réglés dans le studio : https://killedbyapixel.github.io/ZzFX
-const BRUITS = {
+// Repli ZzFX, réglé dans le studio : https://killedbyapixel.github.io/ZzFX
+const ZZFX_REPLI = {
   bonbon: [1.2, , 1675, , 0.06, 0.24, 1, 1.82, , , 837, 0.06],
   sort: [1.3, , 180, 0.04, 0.25, 0.45, 3, 1.5, -4, , , , , 0.3, 20, , 0.15, 0.7, 0.1],
   arrache: [1.2, , 400, 0.01, 0.05, 0.15, 1, 1.5, 15, , , , , , , , , 0.7, 0.03],
@@ -19,14 +21,40 @@ const BRUITS = {
   pose: [0.8, , 300, , 0.02, 0.06, , 2],
   trouvee: [1.4, , 523, 0.02, 0.2, 0.4, 1, 2, , , 262, 0.1, 0.1],
 }
-export const bruit = (nom) => zzfx(...BRUITS[nom])
+
+let sons = null
+let muet = false // Phaser applique mute en différé : on garde notre propre valeur
+const existe = (nom) => sons?.game.cache.audio.exists(nom)
+
+// Vite ne liste que les fichiers présents : on ne charge rien qui manque (pas d'erreur en console).
+const FICHIERS = import.meta.glob('./sons/*.mp3', { eager: true, query: '?url', import: 'default' })
+
+// À appeler dans le preload de Boot.
+export function chargerSons(scene) {
+  for (const nom of NOMS_SONS) {
+    const url = FICHIERS[`./sons/${nom}.mp3`]
+    if (url) scene.load.audio(nom, url)
+  }
+}
+
+export function bruit(nom) {
+  if (existe(nom)) return sons.play(nom, { volume: VOLUMES[nom] })
+  if (ZZFX_REPLI[nom]) zzfx(...ZZFX_REPLI[nom])
+}
+
+// Ambiance propre à une scène (le feu de Samhain) : coupée quand la scène s'arrête.
+export function ambianceLocale(scene, nom) {
+  if (!existe(nom)) return
+  const s = sons.add(nom, { loop: true, volume: AMBIANCES[nom] })
+  s.play()
+  scene.events.once('shutdown', () => s.destroy())
+}
 
 export function demarrerAmbiance(scene) {
   if (sons) return
   sons = scene.sound
-  sons.play('musique', { loop: true, volume: 0.45 })
-  sons.play('pluie', { loop: true, volume: 0.3 })
-  ZZFX.volume = VOLUME_BRUITS
+  for (const nom of ['musique', 'pluie']) if (existe(nom)) sons.play(nom, { loop: true, volume: AMBIANCES[nom] })
+  ZZFX.volume = VOLUME_BRUITS * 0.6
   creerBouton()
 }
 
@@ -42,7 +70,7 @@ function creerBouton() {
   b.addEventListener('click', () => {
     muet = !muet
     sons.mute = muet
-    ZZFX.volume = muet ? 0 : VOLUME_BRUITS
+    ZZFX.volume = muet ? 0 : VOLUME_BRUITS * 0.6
     maj()
     b.blur() // Espace doit rester au jeu
   })

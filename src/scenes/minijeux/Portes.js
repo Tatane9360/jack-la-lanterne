@@ -66,6 +66,7 @@ export default class Portes extends Phaser.Scene {
     const avant = this.rue
     this.rue = frapper(this.rue, i)
     if (this.rue === avant) return
+    bruit('frapper')
     const m = this.maisons[i]
     if (this.rue.sort) return this.ensorceler(m)
     bruit('bonbon')

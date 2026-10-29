@@ -1,14 +1,14 @@
 import Phaser from 'phaser'
 import { texturePixels, textureHalo } from '../art/pixels.js'
 import { JACK, DIRECTIONS, TUILES, BATIMENTS, OBJETS } from '../art/sprites.js'
+import { chargerSons } from '../son.js'
 
 // Génère toutes les textures et animations, puis lance le jeu.
 export default class Boot extends Phaser.Scene {
   constructor() { super('Boot') }
 
   preload() {
-    this.load.audio('musique', 'sons/musique.mp3')
-    this.load.audio('pluie', 'sons/pluie.mp3')
+    chargerSons(this)
   }
 
   create() {

@@ -5,7 +5,7 @@ import { afficherBulle } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
 import { creerPluie } from '../../ui/pluie.js'
-import { bruit } from '../../son.js'
+import { bruit, ambianceLocale } from '../../son.js'
 
 const CENTRE = { x: 480, y: 300 }
 const PORTEE_FEU = 50 // un esprit plus proche que ça touche le feu
@@ -21,6 +21,7 @@ export default class Feu extends Phaser.Scene {
     fondNuit(this, lieu.nom)
     boutonQuitter(this)
     creerPluie(this)
+    ambianceLocale(this, 'feu')
 
     for (let i = 0; i < 9; i++) {
       const a = (i / 9) * Math.PI * 2

@@ -25,5 +25,10 @@ const jeu = new Phaser.Game({
   scene: [Boot, Titre, Village, Anecdote, Recap, Navet, Feu, Portes, Boutique],
 })
 
+// Phaser rate parfois le passage portrait → paysage (le jeu reste à la taille du portrait) : on force le recalcul.
+for (const evenement of ['resize', 'orientationchange']) {
+  window.addEventListener(evenement, () => setTimeout(() => jeu.scale.refresh(), 150))
+}
+
 // Accès depuis la console pour les tests manuels.
 if (import.meta.env.DEV) window.jeu = jeu

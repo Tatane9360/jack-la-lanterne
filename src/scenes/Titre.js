@@ -26,7 +26,7 @@ export default class Titre extends Phaser.Scene {
       this.input.keyboard.off('keydown-SPACE', commencer)
       this.input.keyboard.off('keydown-ENTER', commencer)
       invite.setVisible(false)
-      demarrerAmbiance()
+      demarrerAmbiance(this)
       await afficherBulle(this, INTRO)
       this.scene.start('Village')
     }

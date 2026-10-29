@@ -1,50 +1,32 @@
-// Ambiance sonore générée en Web Audio, sans fichier : un bourdon grave et du vent.
+import { zzfx, ZZFX } from 'zzfx'
+
+// Ambiance : musique et pluie en boucle (fichiers CC0 de public/sons, voir public/sons/LICENCES.md),
+// jouées par le gestionnaire de sons de Phaser. Bruitages : ZzFX, générés en code (licence MIT).
 // Doit démarrer après un geste de l'utilisateur (règle des navigateurs).
-const VOLUME = 0.5
-let ctx = null
-let general = null
-let muet = false
+const VOLUME_BRUITS = 0.3
+let sons = null
+let muet = false // Phaser applique mute en différé : on garde notre propre valeur
 
-export function demarrerAmbiance() {
-  if (ctx) return
-  ctx = new AudioContext()
-  general = ctx.createGain()
-  general.gain.setValueAtTime(0, ctx.currentTime)
-  general.gain.linearRampToValueAtTime(VOLUME, ctx.currentTime + 3)
-  general.connect(ctx.destination)
+// Paramètres ZzFX, réglés dans le studio : https://killedbyapixel.github.io/ZzFX
+const BRUITS = {
+  bonbon: [1.2, , 1675, , 0.06, 0.24, 1, 1.82, , , 837, 0.06],
+  sort: [1.3, , 180, 0.04, 0.25, 0.45, 3, 1.5, -4, , , , , 0.3, 20, , 0.15, 0.7, 0.1],
+  arrache: [1.2, , 400, 0.01, 0.05, 0.15, 1, 1.5, 15, , , , , , , , , 0.7, 0.03],
+  casse: [1.5, , 90, , 0.02, 0.1, 4, 2, , , , , , 2],
+  resiste: [1, , 70, , 0.04, 0.08, , 2.5, -3],
+  carte: [1, , 880, 0.01, 0.04, 0.15, , 1.5, , , 440, 0.05],
+  esprit: [0.8, , 500, 0.01, 0.05, 0.2, 4, 1, -10, , , , , 1.5],
+  pose: [0.8, , 300, , 0.02, 0.06, , 2],
+  trouvee: [1.4, , 523, 0.02, 0.2, 0.4, 1, 2, , , 262, 0.1, 0.1],
+}
+export const bruit = (nom) => zzfx(...BRUITS[nom])
 
-  // Bourdon : deux notes graves légèrement désaccordées, et une quinte très discrète.
-  for (const [frequence, niveau] of [[55, 0.09], [55.6, 0.09], [82.4, 0.03]]) {
-    const o = ctx.createOscillator()
-    const g = ctx.createGain()
-    o.frequency.value = frequence
-    g.gain.value = niveau
-    o.connect(g).connect(general)
-    o.start()
-  }
-
-  // Vent : bruit blanc dans un filtre passe-bande qui bouge lentement.
-  const bruit = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate)
-  const donnees = bruit.getChannelData(0)
-  for (let i = 0; i < donnees.length; i++) donnees[i] = Math.random() * 2 - 1
-  const source = ctx.createBufferSource()
-  source.buffer = bruit
-  source.loop = true
-  const filtre = ctx.createBiquadFilter()
-  filtre.type = 'bandpass'
-  filtre.frequency.value = 450
-  filtre.Q.value = 0.8
-  const lfo = ctx.createOscillator()
-  const ampleur = ctx.createGain()
-  lfo.frequency.value = 0.07
-  ampleur.gain.value = 300
-  lfo.connect(ampleur).connect(filtre.frequency)
-  const vent = ctx.createGain()
-  vent.gain.value = 0.12
-  source.connect(filtre).connect(vent).connect(general)
-  source.start()
-  lfo.start()
-
+export function demarrerAmbiance(scene) {
+  if (sons) return
+  sons = scene.sound
+  sons.play('musique', { loop: true, volume: 0.45 })
+  sons.play('pluie', { loop: true, volume: 0.3 })
+  ZZFX.volume = VOLUME_BRUITS
   creerBouton()
 }
 
@@ -59,7 +41,8 @@ function creerBouton() {
   }
   b.addEventListener('click', () => {
     muet = !muet
-    general.gain.setTargetAtTime(muet ? 0 : VOLUME, ctx.currentTime, 0.2)
+    sons.mute = muet
+    ZZFX.volume = muet ? 0 : VOLUME_BRUITS
     maj()
     b.blur() // Espace doit rester au jeu
   })

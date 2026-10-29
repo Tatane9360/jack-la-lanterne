@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import { POLICE, PROF, TUILE } from '../../config.js'
 import { CARTES } from '../../data/cartes.js'
 import { afficherBulle } from '../../ui/bulle.js'
+import { bruit } from '../../son.js'
 
 const DISTANCE = 30
 const pages = (c) => [`« ${c.titre} »`, c.texte]
@@ -41,6 +42,7 @@ export function creerCartes(scene) {
     async ramasser(c) {
       restantes.splice(restantes.indexOf(c), 1)
       trouvees.add(c.id)
+      bruit('carte')
       scene.tweens.killTweensOf(c.sprite)
       scene.tweens.add({ targets: c.sprite, y: c.sprite.y - 30, alpha: 0, duration: 400, onComplete: () => c.sprite.destroy() })
       majCompteur()

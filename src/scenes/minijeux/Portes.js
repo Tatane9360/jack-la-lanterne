@@ -8,6 +8,7 @@ import { creerLumiere, lanterneDe } from '../../ui/lumiere.js'
 import { creerInvite } from '../../ui/invite.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
 import { creerPluie } from '../../ui/pluie.js'
+import { bruit } from '../../son.js'
 
 const DELAIS = [14, 20, 26, 32, 38, 44] // secondes avant que chaque maison n'éteigne, mélangées à chaque partie
 const OBJECTIF = 4 // = toutes les maisons à bonbons
@@ -67,6 +68,7 @@ export default class Portes extends Phaser.Scene {
     if (this.rue === avant) return
     const m = this.maisons[i]
     if (this.rue.sort) return this.ensorceler(m)
+    bruit('bonbon')
     const bonbon = this.add.image(m.x, m.y - 30, 'bonbon').setScale(3).setDepth(PROF.INTERFACE)
     this.tweens.add({ targets: bonbon, y: m.y - 90, alpha: 0, duration: 900, onComplete: () => bonbon.destroy() })
     this.add.image(m.x, m.y - m.displayHeight - 10, 'bonbon').setScale(2).setDepth(PROF.INTERFACE) // déjà visitée
@@ -75,6 +77,7 @@ export default class Portes extends Phaser.Scene {
 
   // Pas de citrouille, pas de bonbon : un esprit jaillit de la porte.
   ensorceler(m) {
+    bruit('sort')
     const e = this.add.sprite(m.x, m.y - 20, 'esprit').play('esprit').setScale(3).setDepth(PROF.INTERFACE)
     this.tweens.add({ targets: e, y: m.y - 140, scale: 7, alpha: 0.4, duration: 900 })
     this.cameras.main.shake(300, 0.01)

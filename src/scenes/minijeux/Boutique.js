@@ -4,6 +4,7 @@ import { creerRayon, poser, rayonPlein } from '../../logique/boutique.js'
 import { afficherBulle } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
 import { gagner, boutonQuitter } from './finir.js'
+import { bruit } from '../../son.js'
 
 const TYPES = ['citrouille', 'bonbon', 'chapeau'] // une étagère par type, de haut en bas
 const COLONNES = [570, 680, 790]
@@ -74,6 +75,7 @@ export default class Boutique extends Phaser.Scene {
       return
     }
     this.rayon = res.rayon
+    bruit('pose')
     o.setPosition(proche.x, proche.y).setDepth(1).disableInteractive()
     this.tweens.add({ targets: o, scale: ECHELLE * 1.15, yoyo: true, duration: 120 })
     if (rayonPlein(this.rayon)) this.finir()

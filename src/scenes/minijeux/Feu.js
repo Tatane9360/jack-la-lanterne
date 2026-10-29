@@ -5,6 +5,7 @@ import { afficherBulle } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
 import { creerPluie } from '../../ui/pluie.js'
+import { bruit } from '../../son.js'
 
 const CENTRE = { x: 480, y: 300 }
 const PORTEE_FEU = 50 // un esprit plus proche que ça touche le feu
@@ -50,6 +51,7 @@ export default class Feu extends Phaser.Scene {
   chasser(e) {
     if (!this.actif || !e.active || e.chasse) return
     e.chasse = true
+    bruit('esprit')
     e.disableInteractive()
     this.tweens.add({ targets: e, alpha: 0, scale: 6, duration: 250, onComplete: () => e.destroy() })
   }

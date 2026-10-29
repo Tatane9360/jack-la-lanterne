@@ -6,6 +6,7 @@ import { afficherBulle, typo } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
 import { creerPluie } from '../../ui/pluie.js'
+import { bruit } from '../../son.js'
 
 const NAVETS = 5
 const OBJECTIF = 3
@@ -81,6 +82,7 @@ export default class Recolte extends Phaser.Scene {
     const n = this.navets[this.courant]
     const resultat = tirer(jauge(this.temps, this.periode()))
     this.recolte = recolter(this.recolte, resultat)
+    bruit(resultat)
 
     if (resultat === 'resiste') {
       this.dire('Il résiste ! Tire plus fort.')

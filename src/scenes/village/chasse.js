@@ -4,6 +4,7 @@ import { CACHETTES } from '../../data/carte.js'
 import { chaleur, indiceFort } from '../../logique/chasse.js'
 import { afficherBulle } from '../../ui/bulle.js'
 import { boutonQuitter } from '../minijeux/finir.js'
+import { bruit } from '../../son.js'
 
 const PORTEE = 360 // distance à partir de laquelle la lanterne commence à s'agiter
 const TROUVEE = 30
@@ -36,6 +37,7 @@ export function creerChasse(scene) {
       return (finie = true)
     },
     async fin() {
+      bruit('trouvee')
       scene.tweens.add({ targets: citrouille, y: pos.y - 20, scale: 3, yoyo: true, duration: 300, ease: 'Back.out' })
       await afficherBulle(scene, 'Trouvée ! Toi, tu ferais une excellente lanterne.')
       scene.scene.start('Recap')

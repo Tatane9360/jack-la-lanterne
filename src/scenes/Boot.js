@@ -6,6 +6,11 @@ import { JACK, DIRECTIONS, TUILES, BATIMENTS, OBJETS } from '../art/sprites.js'
 export default class Boot extends Phaser.Scene {
   constructor() { super('Boot') }
 
+  preload() {
+    this.load.audio('musique', 'sons/musique.mp3')
+    this.load.audio('pluie', 'sons/pluie.mp3')
+  }
+
   create() {
     texturePixels(this, 'jack', JACK)
     texturePixels(this, 'tuiles', TUILES)

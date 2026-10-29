@@ -7,6 +7,7 @@ import { creerEntrees } from '../../ui/entrees.js'
 import { creerLumiere, lanterneDe } from '../../ui/lumiere.js'
 import { creerInvite } from '../../ui/invite.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
+import { creerPluie } from '../../ui/pluie.js'
 
 const DELAIS = [14, 20, 26, 32, 38, 44] // secondes avant que chaque maison n'éteigne, mélangées à chaque partie
 const OBJECTIF = 4 // = toutes les maisons à bonbons
@@ -15,7 +16,8 @@ const BAS_MAISONS = 250
 const DISTANCE_PORTE = 44
 
 // Rue américaine : frapper aux portes encore allumées avant qu'elles ne s'éteignent.
-// Bonbon ou sort : seules les maisons avec une citrouille allumée devant donnent des bonbons.
+// Bonbon ou sort : seules les maisons avec une petite citrouille devant donnent des bonbons.
+// Le jeu ne le dit pas : c'est au joueur de le remarquer (indice discret après un sort).
 export default class Portes extends Phaser.Scene {
   constructor() { super('Portes') }
 
@@ -33,11 +35,12 @@ export default class Portes extends Phaser.Scene {
     this.maisons = this.rue.restants.map((_, i) =>
       this.add.sprite(80 + i * 160, BAS_MAISONS, 'maison', 0).setOrigin(0.5, 1).setScale(1.6).setDepth(BAS_MAISONS))
     this.citrouilles = this.maisons.map((m, i) =>
-      sorts.includes(i) ? null : this.add.image(m.x + 40, m.y + 6, 'citrouille').setOrigin(0.5, 1).setScale(2).setDepth(BAS_MAISONS + 1))
+      sorts.includes(i) ? null : this.add.image(m.x + 40, m.y + 6, 'citrouille').setOrigin(0.5, 1).setScale(1.5).setDepth(BAS_MAISONS + 1))
 
     this.physics.world.setBounds(0, BAS_MAISONS + 5, width, height - BAS_MAISONS - 70)
     this.jack = creerJack(this, width / 2, BAS_MAISONS + 120, 'haut')
     this.eclairer = creerLumiere(this)
+    creerPluie(this)
     this.invite = creerInvite(this, () => this.frapper())
     this.entrees = creerEntrees(this)
 
@@ -88,8 +91,6 @@ export default class Portes extends Phaser.Scene {
       m.setFrame(t > 0 ? 0 : 1)
       const clignote = t > 0 && t < 3 && Math.floor(temps / 150) % 2
       if (t > 0 && !clignote) sources.push({ x: m.x, y: m.y - 40, r: 80 })
-      const c = this.citrouilles[i]
-      if (c && t > 0) sources.push({ x: c.x, y: c.y - 10, r: 36 })
     })
     this.eclairer(sources)
 
@@ -103,6 +104,6 @@ export default class Portes extends Phaser.Scene {
     if (!issue) return
     this.actif = false
     if (issue === 'gagne') this.time.delayedCall(900, () => gagner(this, this.lieu))
-    else rejouer(this, this.rue.sort ? 'Un sort ! On recommence…' : 'Toutes les lumières sont éteintes… on recommence !')
+    else rejouer(this, this.rue.sort ? 'Un sort ! Regarde mieux les portes…' : 'Toutes les lumières sont éteintes… on recommence !')
   }
 }

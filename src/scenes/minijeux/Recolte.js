@@ -5,6 +5,7 @@ import { jauge, tirer, ZONE, creerRecolte, recolter, issueRecolte } from '../../
 import { afficherBulle, typo } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
+import { creerPluie } from '../../ui/pluie.js'
 
 const NAVETS = 5
 const OBJECTIF = 3
@@ -36,6 +37,7 @@ export default class Recolte extends Phaser.Scene {
     this.recolte = creerRecolte(NAVETS, OBJECTIF)
     fondNuit(this, lieu.nom)
     boutonQuitter(this)
+    creerPluie(this)
 
     this.navets = Array.from({ length: NAVETS }, (_, i) => {
       const taille = Phaser.Math.FloatBetween(0.75, 1.3)

@@ -11,6 +11,7 @@ import { creerInvite } from '../ui/invite.js'
 import { creerFrise } from './village/frise.js'
 import { creerCartes, relireCartes } from './village/cartes.js'
 import { creerChasse } from './village/chasse.js'
+import { creerPluie } from '../ui/pluie.js'
 
 // Tuiles → pixels du monde (centre horizontal de la tuile).
 const mx = (x) => x * TUILE + TUILE / 2
@@ -59,6 +60,7 @@ export default class Village extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, carte.widthInPixels, carte.heightInPixels).startFollow(this.jack, true).setRoundPixels(true)
 
     this.eclairer = creerLumiere(this)
+    creerPluie(this)
     this.creerGuide()
     creerFrise(this, this.progression)
     this.cartes = creerCartes(this)

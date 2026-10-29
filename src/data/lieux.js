@@ -44,7 +44,7 @@ export const LIEUX = [
   },
   {
     id: 'rue', nom: 'La rue américaine', epoque: '1911-1930', batiment: null, porte: { x: 30, y: 23 }, scene: 'Portes',
-    consigne: "Bonbon ou sort ? Frappe aux portes allumées, 4 bonbons avant que tout s'éteigne. Mais seules les maisons avec une citrouille devant sont gentilles !",
+    consigne: "Bonbon ou sort ? Il me faut 4 bonbons avant que tout s'éteigne. Mais attention : certaines maisons jettent des sorts…",
     // Souling (au moins XVe siècle) et guising : Wikipedia « Halloween ». Kingston (Ontario) 1911 : N. Rogers.
     // « Trick or treat » : première attestation en Alberta en 1927 (archives d'Edmonton, CBC), répandu aux États-Unis dans les années 1930.
     anecdote: [

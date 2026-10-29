@@ -6,9 +6,13 @@
 // Wikipedia « Toussaint ») ; navets sculptés au XIXe siècle en Irlande et en Écosse (Wikipedia « Jack-o'-lantern »).
 
 // La légende de Jack : toujours présentée comme une légende.
+// Fil rouge (fiction, voir design.md §12) : le diable a défié Jack et se cache dans l'histoire d'Halloween.
+// Chaque lieu finit sur un mot signé « D. », la boutique révèle le diable, la citrouille cachée le piège.
 export const INTRO = [
   "La légende raconte qu'un certain Jack, très radin, a roulé le diable. Ni paradis ni enfer pour lui : il erre depuis avec une braise dans un navet.",
-  "Moi aussi, je m'appelle Jack. Suis la lueur orange : je te raconte Halloween, du plus ancien au plus récent.",
+  "Moi aussi, je m'appelle Jack. Et ce soir, quelqu'un a glissé un mot dans ma lanterne.",
+  "« Ta braise s'éteint à minuit. Si tu veux la garder, viens me trouver. Je me cache quelque part dans l'histoire d'Halloween. Signé : D. »",
+  "D… comme diable ? Il me confond avec l'autre Jack. Suis la lueur orange : on remonte Halloween, du plus ancien au plus récent, et on le trouve.",
 ]
 
 export const LIEUX = [
@@ -20,6 +24,8 @@ export const LIEUX = [
     anecdote: [
       'Les Celtes fêtaient Samhain à la fin des récoltes, vers le 1er novembre.',
       "L'ancêtre d'Halloween ? On le lit partout… mais les historiens restent prudents : les preuves sont minces.",
+      "Un mot coincé sous une pierre : « On dit que cette fête vient de chez moi. Faux. Je n'étais même pas invité. D. »",
+      'Ma braise reprend des forces. Il ne doit pas être loin.',
     ],
     recap: "Le lien entre Halloween et la fête celte de Samhain est bien moins sûr qu'on le dit.",
   },
@@ -29,6 +35,7 @@ export const LIEUX = [
     anecdote: [
       "Ici, c'est calme. Le nom « Halloween » vient de « All Hallows' Eve » : la veille de la Toussaint.",
       "Les Écossais l'ont raccourci en « Hallowe'en ». Paresseux, mais efficace.",
+      "Un mot cloué sur la porte, côté dehors : « La veille de la Toussaint ? Très peu pour moi. Je t'attends plus loin. D. »",
     ],
     recap: "Halloween, c'est « All Hallows' Eve » : la veille de la Toussaint.",
   },
@@ -39,6 +46,8 @@ export const LIEUX = [
     anecdote: [
       "Les premières lanternes étaient des navets, en Irlande et en Écosse. En Amérique, les immigrants ont trouvé la citrouille : plus grosse, plus tendre.",
       'Mes doigts en os disent merci.',
+      "La légende raconte que le diable a jeté à l'autre Jack une braise de l'enfer, et qu'il l'a posée dans un navet.",
+      "Il est passé par ici : des traces de sabots dans le potager, et un mot. « Joli navet. Dommage qu'il soit démodé. D. »",
     ],
     recap: "Les premières lanternes d'Halloween étaient des navets, pas des citrouilles.",
   },
@@ -50,16 +59,19 @@ export const LIEUX = [
     anecdote: [
       'Au Moyen Âge, on passait déjà de porte en porte : une prière contre un gâteau, ou un déguisement contre quelques douceurs.',
       "En Amérique du Nord, des enfants déguisés frappent aux portes à Kingston, au Canada, dès 1911. Et « trick or treat » apparaît en Alberta en 1927, avant de conquérir les États-Unis dans les années 1930.",
+      "Parmi les enfants, un costume de diable très réussi. Trop réussi. Il a filé en laissant un mot sur un bonbon : « Je t'attends dans ton siècle. D. »",
     ],
     recap: '« Trick or treat » est né au Canada, en Alberta, en 1927.',
   },
   {
     id: 'boutique', nom: "La boutique d'aujourd'hui", epoque: 'Fin des années 1990', batiment: 'boutique', x: 35, y: 13, porte: { x: 35, y: 13 }, scene: 'Boutique',
-    consigne: 'Remplis le rayon Halloween : chaque objet sur son étagère, le plus vite possible !',
+    consigne: 'Le vendeur a un drôle de sourire. Aide-le à remplir le rayon Halloween : chaque objet sur son étagère, le plus vite possible !',
     // Arrivée en France par le marketing : vérifié par le porteur. Pas d'année précise (1997 ou 1999 selon les sources).
     anecdote: [
-      'En France, Halloween est arrivé à la fin des années 1990… surtout grâce aux publicitaires.',
-      "Les bonbons d'abord, le folklore ensuite. Fin de l'histoire. Enfin, de la mienne.",
+      'Le vendeur ôte sa casquette. Deux cornes. Trouvé !',
+      "« En France, Halloween est arrivé à la fin des années 1990… surtout grâce aux publicitaires. Les bonbons d'abord, le folklore ensuite. Joli travail, non ? »",
+      "« Marché conclu ? Ta vieille braise contre cette citrouille en plastique. À piles. Garantie deux ans. »",
+      "Non merci. Ma braise, c'est toute l'histoire qu'on vient de traverser. Et la légende raconte que Jack roule toujours le diable.",
     ],
     recap: 'Halloween est arrivé en France à la fin des années 1990, poussé par le marketing.',
   },

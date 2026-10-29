@@ -3,7 +3,7 @@ import { TUILE, PROF } from '../config.js'
 import { ORANGE } from '../art/palette.js'
 import { CARTE, BLOQUANTES, DECOR, DEPART } from '../data/carte.js'
 import { LIEUX } from '../data/lieux.js'
-import { creerProgression, prochainLieu, estAccessible } from '../logique/progression.js'
+import { creerProgression, prochainLieu, estAccessible, braise } from '../logique/progression.js'
 import { creerJack } from '../ui/jack.js'
 import { creerEntrees } from '../ui/entrees.js'
 import { creerLumiere, lanterneDe } from '../ui/lumiere.js'
@@ -11,6 +11,7 @@ import { creerInvite } from '../ui/invite.js'
 import { creerFrise } from './village/frise.js'
 import { creerCartes, relireCartes } from './village/cartes.js'
 import { creerChasse } from './village/chasse.js'
+import { creerDiable } from './village/diable.js'
 import { creerPluie } from '../ui/pluie.js'
 
 // Tuiles → pixels du monde (centre horizontal de la tuile).
@@ -69,6 +70,8 @@ export default class Village extends Phaser.Scene {
 
     // Épilogue : plus de lueurs ni de guide, seule la lanterne cherche la citrouille.
     this.chasse = chasse ? creerChasse(this) : null
+    const id = prochainLieu(this.progression)
+    this.diable = this.chasse || !id ? null : creerDiable(this, porte(LIEUX.find((l) => l.id === id)))
     if (this.chasse) {
       this.lueurs = []
       this.lire(() => this.chasse.intro())
@@ -105,6 +108,8 @@ export default class Village extends Phaser.Scene {
   update(temps, delta) {
     this.jack.piloter(this.enLecture ? { x: 0, y: 0 } : this.entrees.direction())
     const lanterne = lanterneDe(this.jack, temps)
+    lanterne.r *= braise(this.progression)
+    this.diable?.(this.jack)
     this.eclairer([this.chasse ? this.chasse.lanterne(lanterne, this.jack, temps) : lanterne, ...this.lueurs, ...this.cartes.lueurs()])
     if (this.enLecture) return
     if (this.chasse?.trouvee(this.jack, delta / 1000)) return this.lire(() => this.chasse.fin())

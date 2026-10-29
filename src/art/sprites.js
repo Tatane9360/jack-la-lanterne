@@ -239,6 +239,11 @@ export const OBJETS = {
     '.....kv.....', '..kkkkkkkk..', '.koookooook.', 'kooyokooyook', 'koooookooook',
     'kooyyyyyyook', 'koooyooyoook', '.kooookoook.', '..kkkkkkkk..',
   ]],
+  // Le diable : silhouette d'encre à cornes et queue, yeux orange.
+  diable: [[
+    '.k........k.', '.kk......kk.', '..kkkkkkkk..', '..kkkkkkkk..', '..kokkkkok..', '..kkkkkkkk..', '...kkkkkk...',
+    '..kkkkkkkk..', '.kkkkkkkkkk.', '.kkkkkkkkkk.', '..kkkkkkkk.k', '..kkkkkkkkk.', '..kk....kk..', '..kk....kk..',
+  ]],
   chapeau: [[
     '......k.....', '.....kk.....', '.....kkk....', '....kkkk....',
     '....kkkkk...', '...kooooook.', '...kkkkkkk..', 'kkkkkkkkkkkk',

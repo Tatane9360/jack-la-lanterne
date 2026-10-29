@@ -10,7 +10,7 @@ const PORTEE = 360 // distance à partir de laquelle la lanterne commence à s'a
 const TROUVEE = 30
 const DELAI_INDICE = 30
 
-// Épilogue : la dernière citrouille est cachée dans le village, seule la lanterne la révèle.
+// Épilogue : le diable s'est caché dans une citrouille du village, seule la lanterne la révèle.
 export function creerChasse(scene) {
   const c = Phaser.Utils.Array.GetRandom(CACHETTES)
   const pos = { x: c.x * TUILE + TUILE / 2, y: c.y * TUILE + TUILE / 2 }
@@ -20,8 +20,8 @@ export function creerChasse(scene) {
 
   return {
     intro: () => afficherBulle(scene, [
-      "Attends… une dernière citrouille s'est cachée dans le village.",
-      "Ma lanterne s'agite quand on s'en approche. Trouve-la !",
+      "Il a filé ! Il s'est caché dans une citrouille du village, je le sens.",
+      "Ma lanterne s'agite quand on s'en approche. Trouve-le !",
     ]),
     // Flèche vers la cachette seulement si on tarde.
     cible: () => (indiceFort(t, DELAI_INDICE) ? pos : null),
@@ -39,7 +39,10 @@ export function creerChasse(scene) {
     async fin() {
       bruit('trouvee')
       scene.tweens.add({ targets: citrouille, y: pos.y - 20, scale: 3, yoyo: true, duration: 300, ease: 'Back.out' })
-      await afficherBulle(scene, 'Trouvée ! Toi, tu ferais une excellente lanterne.')
+      await afficherBulle(scene, [
+        'Trouvé ! Je referme le couvercle. Roulé deux fois, le diable.',
+        'Ma braise brille comme jamais. Minuit peut sonner.',
+      ])
       scene.scene.start('Recap')
     },
   }

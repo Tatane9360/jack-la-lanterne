@@ -121,3 +121,14 @@ Dehors : sauvegarde, score, plusieurs langues, bouton de partage, monde plus gra
 
 - Conditions d'usage des images générées, à vérifier avant publication sur le portfolio.
 - Faits à confirmer : Samhain, *All Hallows' Eve*, date « 1930 ».
+
+## 12. Fil rouge : « Le pacte de Jack » **[décidé le 2026-10-29]**
+
+But : donner une raison d'aller jusqu'au bout, une intrigue en plus des anecdotes.
+
+- **Départ :** un mot signé « D. » dans la lanterne de Jack : « Ta braise s'éteint à minuit. Si tu veux la garder, viens me trouver. Je me cache quelque part dans l'histoire d'Halloween. » Le diable confond notre Jack avec celui de la légende.
+- **Enjeu lié à la lumière :** le rayon de la lanterne démarre à 70 % et chaque lieu terminé le ravive, jusqu'à 100 % (`braise()` dans `logique/progression.js`). Il n'y a pas d'échec et le guide reste visible.
+- **Fil rouge :** une silhouette à cornes rôde près du prochain lieu, visible seulement dans la lumière, et file quand Jack approche. Après chaque anecdote, un mot signé « D. » reprend le fait du lieu (Samhain : « je n'étais même pas invité » ; chapelle : il ne peut pas entrer ; ferme : la braise et le navet de la légende ; rue : déguisé parmi les enfants).
+- **Révélation :** le vendeur de la boutique est le diable. Il revendique le marketing de la fin des années 1990 et propose une citrouille en plastique contre la braise. Jack refuse.
+- **Fin :** le diable se cache dans une citrouille du village (la chasse finale). Jack le trouve et le piège : « roulé deux fois ».
+- **Règle :** tout ce que dit le diable est de la fiction. Les faits qu'il cite restent ceux de §6, avec les mêmes formulations imposées.

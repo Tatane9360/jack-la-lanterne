@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { creerProgression, prochainLieu, estAccessible, terminer, partieFinie } from '../src/logique/progression.js'
+import { creerProgression, prochainLieu, estAccessible, terminer, partieFinie, braise } from '../src/logique/progression.js'
 import { vecteurJoystick } from '../src/logique/joystick.js'
 import { jauge, tirer, creerRecolte, recolter, issueRecolte } from '../src/logique/recolte.js'
 import { creerFeu, majFeu, issueFeu, DUREE_FEU } from '../src/logique/feu.js'
@@ -21,6 +21,15 @@ test("progression : seuls le prochain lieu et les lieux faits sont ouverts", () 
   assert.equal(estAccessible(p, 'boutique'), true)
   terminer(p, 'boutique')
   assert.equal(partieFinie(p), true)
+})
+
+test('braise : faible au départ, ravivée par chaque lieu, pleine à la fin', () => {
+  const p = creerProgression(['a', 'b'])
+  assert.equal(braise(p), 0.7)
+  terminer(p, 'a')
+  assert.equal(braise(p), 0.85)
+  terminer(p, 'b')
+  assert.equal(braise(p), 1)
 })
 
 test('joystick : borné au rayon, nul dans la zone morte', () => {

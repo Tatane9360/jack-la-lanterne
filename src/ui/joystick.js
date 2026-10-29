@@ -1,4 +1,5 @@
 import { vecteurJoystick } from '../logique/joystick.js'
+import { PROF } from '../config.js'
 
 const RAYON = 48
 
@@ -6,7 +7,7 @@ const RAYON = 48
 export function creerJoystick(scene) {
   const base = scene.add.circle(0, 0, RAYON, 0xdcc79a, 0.25).setStrokeStyle(3, 0x2b1d10, 0.6)
   const manette = scene.add.circle(0, 0, 20, 0xe8731a, 0.7).setStrokeStyle(3, 0x2b1d10, 0.8)
-  for (const o of [base, manette]) o.setScrollFactor(0).setDepth(300).setVisible(false)
+  for (const o of [base, manette]) o.setScrollFactor(0).setDepth(PROF.INTERFACE).setVisible(false)
   let doigt = null
   let v = { x: 0, y: 0 }
 

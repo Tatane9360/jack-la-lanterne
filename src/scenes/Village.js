@@ -71,7 +71,8 @@ export default class Village extends Phaser.Scene {
     // Épilogue : plus de lueurs ni de guide, seule la lanterne cherche la citrouille.
     this.chasse = chasse ? creerChasse(this) : null
     const id = prochainLieu(this.progression)
-    this.diable = this.chasse || !id ? null : creerDiable(this, porte(LIEUX.find((l) => l.id === id)))
+    const suivant = LIEUX.find((l) => l.id === id)
+    this.diable = this.chasse || !suivant ? null : creerDiable(this, porte(suivant), suivant.diable)
     if (this.chasse) {
       this.lueurs = []
       this.lire(() => this.chasse.intro())

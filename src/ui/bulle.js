@@ -7,9 +7,9 @@ const VITESSE_ECRITURE = 22 // ms par lettre
 // Espaces insécables de la typographie française : «, », : ! ? ne se retrouvent jamais seuls en bout de ligne.
 export const typo = (t) => t.replace(/ ([:;!?»])/g, '\u00a0$1').replace(/« /g, '«\u00a0')
 
-// Jack parle : cadre parchemin en bas de l'écran, texte écrit lettre par lettre.
+// Jack parle (ou le diable, avec portrait = 'diable') : cadre parchemin en bas de l'écran, texte écrit lettre par lettre.
 // Toucher / Espace / Entrée : termine la page, puis passe à la suivante. Résout la promesse à la fin.
-export function afficherBulle(scene, pages) {
+export function afficherBulle(scene, pages, portrait = 'jack') {
   pages = [].concat(pages).map(typo)
   const { width, height } = scene.scale
   const y0 = height - HAUTEUR_BULLE - 16
@@ -17,7 +17,7 @@ export function afficherBulle(scene, pages) {
   const objets = [
     scene.add.rectangle(16, y0, width - 32, HAUTEUR_BULLE, 0xdcc79a).setOrigin(0).setStrokeStyle(4, 0x2b1d10),
     scene.add.image(90, y0 + HAUTEUR_BULLE / 2, 'halo').setTint(ORANGE).setAlpha(0.5).setScale(0.6),
-    scene.add.sprite(90, y0 + HAUTEUR_BULLE / 2, 'jack', 1).setScale(4),
+    scene.add.sprite(90, y0 + HAUTEUR_BULLE / 2, portrait, portrait === 'jack' ? 1 : 0).setScale(4),
   ]
   const texte = scene.add.text(170, y0 + 18, '', {
     fontFamily: POLICE, fontSize: 26, color: '#2b1d10', lineSpacing: 4, wordWrap: { width: width - 220 },

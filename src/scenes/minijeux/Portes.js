@@ -9,11 +9,13 @@ import { creerInvite } from '../../ui/invite.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
 
 const DELAIS = [14, 20, 26, 32, 38, 44] // secondes avant que chaque maison n'éteigne, mélangées à chaque partie
-const OBJECTIF = 4
+const OBJECTIF = 4 // = toutes les maisons à bonbons
+const SORTS = 2
 const BAS_MAISONS = 250
 const DISTANCE_PORTE = 44
 
 // Rue américaine : frapper aux portes encore allumées avant qu'elles ne s'éteignent.
+// Bonbon ou sort : seules les maisons avec une citrouille allumée devant donnent des bonbons.
 export default class Portes extends Phaser.Scene {
   constructor() { super('Portes') }
 
@@ -26,9 +28,12 @@ export default class Portes extends Phaser.Scene {
     boutonQuitter(this)
     this.add.tileSprite(0, BAS_MAISONS + 20, width, 150, 'tuiles', 4).setOrigin(0)
 
-    this.rue = creerRue(Phaser.Utils.Array.Shuffle([...DELAIS]), OBJECTIF)
+    const sorts = Phaser.Utils.Array.Shuffle(DELAIS.map((_, i) => i)).slice(0, SORTS)
+    this.rue = creerRue(Phaser.Utils.Array.Shuffle([...DELAIS]), OBJECTIF, sorts)
     this.maisons = this.rue.restants.map((_, i) =>
       this.add.sprite(80 + i * 160, BAS_MAISONS, 'maison', 0).setOrigin(0.5, 1).setScale(1.6).setDepth(BAS_MAISONS))
+    this.citrouilles = this.maisons.map((m, i) =>
+      sorts.includes(i) ? null : this.add.image(m.x + 40, m.y + 6, 'citrouille').setOrigin(0.5, 1).setScale(2).setDepth(BAS_MAISONS + 1))
 
     this.physics.world.setBounds(0, BAS_MAISONS + 5, width, height - BAS_MAISONS - 70)
     this.jack = creerJack(this, width / 2, BAS_MAISONS + 120, 'haut')
@@ -54,14 +59,22 @@ export default class Portes extends Phaser.Scene {
   frapper() {
     const i = this.maisonProche()
     if (!this.actif || i === null) return
-    const avant = this.rue.bonbons
+    const avant = this.rue
     this.rue = frapper(this.rue, i)
-    if (this.rue.bonbons === avant) return
+    if (this.rue === avant) return
     const m = this.maisons[i]
+    if (this.rue.sort) return this.ensorceler(m)
     const bonbon = this.add.image(m.x, m.y - 30, 'bonbon').setScale(3).setDepth(PROF.INTERFACE)
     this.tweens.add({ targets: bonbon, y: m.y - 90, alpha: 0, duration: 900, onComplete: () => bonbon.destroy() })
     this.add.image(m.x, m.y - m.displayHeight - 10, 'bonbon').setScale(2).setDepth(PROF.INTERFACE) // déjà visitée
     this.majScore()
+  }
+
+  // Pas de citrouille, pas de bonbon : un esprit jaillit de la porte.
+  ensorceler(m) {
+    const e = this.add.sprite(m.x, m.y - 20, 'esprit').play('esprit').setScale(3).setDepth(PROF.INTERFACE)
+    this.tweens.add({ targets: e, y: m.y - 140, scale: 7, alpha: 0.4, duration: 900 })
+    this.cameras.main.shake(300, 0.01)
   }
 
   update(temps, delta) {
@@ -75,6 +88,8 @@ export default class Portes extends Phaser.Scene {
       m.setFrame(t > 0 ? 0 : 1)
       const clignote = t > 0 && t < 3 && Math.floor(temps / 150) % 2
       if (t > 0 && !clignote) sources.push({ x: m.x, y: m.y - 40, r: 80 })
+      const c = this.citrouilles[i]
+      if (c && t > 0) sources.push({ x: c.x, y: c.y - 10, r: 36 })
     })
     this.eclairer(sources)
 
@@ -88,6 +103,6 @@ export default class Portes extends Phaser.Scene {
     if (!issue) return
     this.actif = false
     if (issue === 'gagne') this.time.delayedCall(900, () => gagner(this, this.lieu))
-    else rejouer(this, 'Toutes les lumières sont éteintes… on recommence !')
+    else rejouer(this, this.rue.sort ? 'Un sort ! On recommence…' : 'Toutes les lumières sont éteintes… on recommence !')
   }
 }

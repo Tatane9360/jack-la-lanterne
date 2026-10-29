@@ -45,6 +45,17 @@ test('portes : frapper une maison allumée donne un bonbon, éteinte non', () =>
   assert.equal(issueRue(r), 'perdu')  // plus de maison allumée à visiter, objectif raté
 })
 
+test('portes : une maison à sort fait perdre, on attend pas les maisons à sort', () => {
+  let r = creerRue([5, 5, 5], 2, [2])
+  assert.equal(frapper(r, 2).sort, true)
+  assert.equal(issueRue(frapper(r, 2)), 'perdu')
+  r = frapper(r, 0)
+  r = majRue(r, 1)
+  assert.equal(issueRue(r), null)
+  r = frapper(creerRue([5, 0, 5], 2, [2]), 0) // la seule autre maison à bonbons est éteinte
+  assert.equal(issueRue(r), 'perdu')
+})
+
 test('boutique : un objet va sur son étagère', () => {
   let r = creerRayon(['citrouille', 'bonbon'])
   assert.equal(poser(r, 0, 'bonbon').ok, false)

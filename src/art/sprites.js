@@ -239,6 +239,12 @@ export const OBJETS = {
     '.....kv.....', '..kkkkkkkk..', '.koookooook.', 'kooyokooyook', 'koooookooook',
     'kooyyyyyyook', 'koooyooyoook', '.kooookoook.', '..kkkkkkkk..',
   ]],
+  // Chauve-souris de l'écran-titre : ailes hautes, ailes basses ; bord des ailes clair pour se détacher de la nuit, yeux orange comme le diable.
+  'chauve-souris': [[
+    'q...........q', 'kq.........qk', 'kkq..k.k..qkk', '.kkkkokokkkk.', '..k..kkk..k..', '......k......',
+  ], [
+    '.....k.k.....', '....kokok....', '..qqkkkkkqq..', '.qkkkkkkkkkq.', 'qkk..kkk..kkq', 'q.....k.....q',
+  ]],
   // Le diable : silhouette d'encre à cornes et queue, yeux orange.
   diable: [[
     '.k........k.', '.kk......kk.', '..kkkkkkkk..', '..kkkkkkkk..', '..kokkkkok..', '..kkkkkkkk..', '...kkkkkk...',

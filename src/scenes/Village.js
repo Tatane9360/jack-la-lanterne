@@ -12,6 +12,8 @@ import { creerFrise } from './village/frise.js'
 import { creerCartes, relireCartes } from './village/cartes.js'
 import { creerChasse } from './village/chasse.js'
 import { creerDiable } from './village/diable.js'
+import { chaleur } from '../logique/chasse.js'
+import { ambianceProche } from '../son.js'
 import { creerPluie } from '../ui/pluie.js'
 
 // Tuiles → pixels du monde (centre horizontal de la tuile).
@@ -20,6 +22,7 @@ const my = (y) => y * TUILE
 const porte = (l) => ({ x: mx(l.porte.x), y: my(l.porte.y) + TUILE / 2 })
 const DISTANCE_PORTE = 36
 const LOUPE_MOBILE = 1.5 // sur écran tactile (petit), le village est grossi d'autant
+const PORTEE_FEU = 380 // on commence à entendre le feu de Samhain à cette distance
 
 export default class Village extends Phaser.Scene {
   constructor() { super('Village') }
@@ -136,6 +139,8 @@ export default class Village extends Phaser.Scene {
     const lanterne = lanterneDe(this.jack, temps)
     lanterne.r *= braise(this.progression)
     this.diable?.(this.jack)
+    const feu = LIEUX.find((l) => l.id === 'samhain')
+    ambianceProche(this, 'feu', chaleur(Phaser.Math.Distance.Between(this.jack.x, this.jack.y, mx(feu.x), my(feu.y)), PORTEE_FEU))
     this.eclairer([this.chasse ? this.chasse.lanterne(lanterne, this.jack, temps) : lanterne, ...this.lueurs, ...this.cartes.lueurs()])
     if (this.enLecture) return
     if (this.chasse?.trouvee(this.jack, delta / 1000)) return this.lire(() => this.chasse.fin())

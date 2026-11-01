@@ -24,6 +24,7 @@ export default class Boot extends Phaser.Scene {
       repeat: -1,
     }))
     this.anims.create({ key: 'feu', frames: this.anims.generateFrameNumbers('feu'), frameRate: 6, repeat: -1 })
+    this.anims.create({ key: 'chauve-souris', frames: this.anims.generateFrameNumbers('chauve-souris'), frameRate: 10, repeat: -1 })
     this.anims.create({ key: 'esprit', frames: this.anims.generateFrameNumbers('esprit'), frameRate: 4, repeat: -1 })
 
     this.scene.start('Titre')

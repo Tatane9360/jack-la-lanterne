@@ -17,9 +17,12 @@
     #son {
       position: fixed; top: max(10px, env(safe-area-inset-top)); left: max(10px, env(safe-area-inset-left)); /* à gauche : la croix des mini-jeux est à droite */
       font: italic 16px "IM Fell English", Georgia, serif; color: #dcc79a;
-      background: rgba(11, 7, 5, 0.6); border: 1px solid #b9a272; padding: 6px 12px; cursor: pointer;
+      background: rgba(11, 7, 5, 0.6); border: 1px solid #b9a272; padding: 6px 12px;
     }
-    #son:focus-visible { outline: 2px solid #e8731a; outline-offset: 2px; }
+    #son summary { cursor: pointer; }
+    #son label { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; font-size: 14px; }
+    #son input { width: 110px; accent-color: #e8731a; }
+    #son :focus-visible { outline: 2px solid #e8731a; outline-offset: 2px; }
     #tourner {
       display: none; position: fixed; inset: 0; z-index: 10; padding: 24px;
       align-items: center; justify-content: center; text-align: center;

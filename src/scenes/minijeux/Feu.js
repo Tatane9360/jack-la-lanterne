@@ -5,7 +5,7 @@ import { afficherBulle } from '../../ui/bulle.js'
 import { fondNuit } from '../../ui/fond.js'
 import { gagner, rejouer, boutonQuitter } from './finir.js'
 import { creerPluie } from '../../ui/pluie.js'
-import { bruit, ambianceLocale } from '../../son.js'
+import { bruit, ambianceProche } from '../../son.js'
 import { ECRAN } from '../../config.js'
 
 const CENTRE = { x: 480, y: 300 }
@@ -22,7 +22,7 @@ export default class Feu extends Phaser.Scene {
     fondNuit(this, lieu.nom)
     boutonQuitter(this)
     creerPluie(this)
-    ambianceLocale(this, 'feu')
+    ambianceProche(this, 'feu', 1)
 
     for (let i = 0; i < 9; i++) {
       const a = (i / 9) * Math.PI * 2

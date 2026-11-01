@@ -1,5 +1,6 @@
 import { POLICE, PROF, ECRAN } from '../config.js'
 import { ORANGE } from '../art/palette.js'
+import { ecriture } from '../son.js'
 
 const HAUTEUR_BULLE = 170
 const VITESSE_ECRITURE = 22 // ms par lettre
@@ -41,11 +42,12 @@ export function afficherBulle(scene, pages, portrait = 'jack') {
       visage.setTexture(qui[page], qui[page] === 'jack' ? 1 : 0)
       nom.setText(NOMS[qui[page]])
       suite.setVisible(false)
+      ecriture(true)
       minuterie = scene.time.addEvent({
         delay: VITESSE_ECRITURE, repeat: pages[page].length - 1,
         callback: () => {
           texte.setText(pages[page].slice(0, ++lettres))
-          if (lettres === pages[page].length) suite.setVisible(true)
+          if (lettres === pages[page].length) { suite.setVisible(true); ecriture(false) }
         },
       })
     }
@@ -55,6 +57,7 @@ export function afficherBulle(scene, pages, portrait = 'jack') {
         lettres = pages[page].length
         texte.setText(pages[page])
         suite.setVisible(true)
+        ecriture(false)
         return
       }
       if (++page < pages.length) return ecrire()
@@ -65,6 +68,7 @@ export function afficherBulle(scene, pages, portrait = 'jack') {
       resoudre()
     }
 
+    scene.events.once('shutdown', () => ecriture(false)) // scène quittée en pleine écriture (croix d'un mini-jeu)
     scene.input.on('pointerdown', avancer)
     scene.input.keyboard.on('keydown-SPACE', avancer)
     scene.input.keyboard.on('keydown-ENTER', avancer)

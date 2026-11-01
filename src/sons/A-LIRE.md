@@ -13,6 +13,7 @@ Licence : CC0 de préférence ; note toujours l'auteur et le lien dans `LICENCES
 | pluie.mp3 | tout le jeu, sous la musique | rain loop, night rain ambience |
 | feu.mp3 | cercle de pierres (Samhain) | campfire crackle loop, bonfire loop |
 | marcher.mp3 | quand Jack marche | footsteps loop, walking dirt |
+| machine-ecrire.mp3 | pendant qu'un dialogue s'écrit | typewriter typing loop |
 
 ## Bruitages (courts, moins de 2 s)
 
@@ -28,3 +29,4 @@ Licence : CC0 de préférence ; note toujours l'auteur et le lien dans `LICENCES
 | pose.mp3 | objet posé dans la boutique | wood place item, object drop shelf |
 | carte.mp3 | carte ramassée dans le village | paper flip, page turn |
 | trouvee.mp3 | citrouille cachée trouvée | magic chime, success jingle |
+| chauve-souris.mp3 | nuée de l'écran-titre, au démarrage (environ 4 s) | bats swarm, bat wings flapping |
